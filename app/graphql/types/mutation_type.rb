@@ -7,14 +7,15 @@ module Types
       description: "Mutation for a user object" do
       argument :first_name, String, required:true
       argument :last_name, String, required:true
+      argument :email, String, required:true
     end
 
-    def user(first_name:, last_name:)
-      user = User.new(first_name:last_name, last_name:last_name)
+    def user(first_name:, last_name:, email:)
+      user = User.new(first_name:first_name, last_name:last_name, email: email)
       if user.save
         user
       else
-        raise GraphQL::ExecutionError.new(user.errors)
+        GraphQL::ExecutionError.new(user.errors.full_messages)
       end
 
     end

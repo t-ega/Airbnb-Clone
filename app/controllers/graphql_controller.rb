@@ -15,7 +15,7 @@ class GraphqlController < ApplicationController
       # current_user: current_user,
     }
     result = AirbnbCloneSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
-    render json: result
+    render json: { status: "error", data: result }
   rescue StandardError => e
     raise e unless Rails.env.development?
     handle_error_in_development(e)
@@ -47,6 +47,6 @@ class GraphqlController < ApplicationController
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+    render json: { status: "error", errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
   end
 end
