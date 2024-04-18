@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  # module Users
+  module Users
     class Register < BaseMutation
       argument :first_name, String, required:true
       argument :last_name, String, required:true
@@ -21,6 +21,6 @@ module Mutations
       end
 
     end
-  # end
+  end
 end
 

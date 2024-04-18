@@ -3,6 +3,6 @@
 module Types
   class MutationType < Types::BaseObject
 
-    field :register, mutation: Mutations::Register
+    field :register, mutation: Mutations::Users::Register
   end
 end
