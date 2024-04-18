@@ -3,6 +3,8 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :last_name, presence: true
-  validates :email, format: { with: EMAIL_REGEX, message: "Email format must be in the specified format" }
+  validates :email,
+            format: { with: EMAIL_REGEX, message: "Email format must be in the specified format" },
+            uniqueness: { message: "A user with this email already exists" }
 
 end

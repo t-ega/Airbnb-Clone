@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
-  # If accessing from outside this domain, nullify the session
-  # This allows for outside API access while preventing CSRF attacks,
-  # but you'll have to authenticate your user separately
-  # protect_from_forgery with: :null_session
 
+  # I have modified the default way Graphql handles it errors
+  # @see config/initializers/execution_error.rb
   def execute
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
-    }
+    context = {}
     result = AirbnbCloneSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
-    render json: { status: "error", data: result }
+    render json: { status: response_status(result.to_h), **result }
   rescue StandardError => e
     raise e unless Rails.env.development?
     handle_error_in_development(e)
   end
 
   private
+  def response_status(result)
+    return "success" unless result.is_a?(Hash)
+    modified_keys = result.symbolize_keys
+    modified_keys.fetch(:errors, nil).present? ? "error" : "success"
+  end
 
   # Handle variables in form data, JSON body, or a blank value
   def prepare_variables(variables_param)
