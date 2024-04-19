@@ -17,22 +17,4 @@ class User < ApplicationRecord
             format: { with: EMAIL_REGEX, message: "Email format must be in the specified format" },
             uniqueness: { message: "A user with this email already exists" }
 
-  def confirm!
-    update_columns(confirmed_at: Time.current)
-  end
-
-  def confirmed?
-    confirmed_at.present?
-  end
-
-  def generate_confirmation_token
-    signed_id expires_in: CONFIRMATION_TOKEN_EXPIRATION, purpose: :confirm_email
-  end
-
-  def unconfirmed?
-    !confirmed?
-  end
-
-
-
 end
