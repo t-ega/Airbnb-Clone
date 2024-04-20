@@ -67,3 +67,5 @@ gem "graphql", "~> 2.3"
 gem "graphiql-rails", github: "rmosolgo/graphiql-rails",  group: :development
 
 gem "devise", "~> 4.9"
+gem 'devise-jwt'
+gem 'jsonapi-serializer'
