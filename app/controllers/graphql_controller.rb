@@ -8,7 +8,9 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = {}
+    context = {
+      current_user:
+    }
     result = AirbnbCloneSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: { status: response_status(result.to_h), **result }
   rescue StandardError => e
