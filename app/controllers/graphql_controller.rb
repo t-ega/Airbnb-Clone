@@ -19,6 +19,14 @@ class GraphqlController < ApplicationController
   end
 
   private
+  def current_user
+    hmac_secret = ENV["SECRET_KEY"]
+    token = request.headers['Authorization'].to_s.split(' ').last
+    return unless token
+
+    user_id = JWT.decode token, hmac_secret, false, { algorithm: 'HS256' }
+    User.find(user_id[0])
+  end
   def response_status(result)
     return "success" unless result.is_a?(Hash)
     modified_keys = result.symbolize_keys
