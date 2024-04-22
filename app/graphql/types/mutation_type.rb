@@ -2,11 +2,11 @@
 
 module Types
   class MutationType < Types::BaseObject
-    field :sign_in_mutation, mutation: Mutations::SignInMutation
 
     # ------------------
     # Users
     # ------------------
-    field :register, mutation: Mutations::Users::Register
+    field :sign_up_mutation, mutation: Mutations::Auth::SignUpMutation
+    field :sign_in_mutation, mutation: Mutations::Auth::SignInMutation
   end
 end

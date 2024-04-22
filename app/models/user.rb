@@ -10,9 +10,10 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :last_name, presence: true
+  validates :password, confirmation: true
+  validates :password_confirmation, presence: true, if: :encrypted_password_changed?
   validates :email,
-            format: { with: EMAIL_REGEX, message: "Email format must be in the specified format" },
+            format: { with: EMAIL_REGEX, message: "Email format not recognized" },
             uniqueness: { message: "A user with this email already exists" }
 
 end
