@@ -11,7 +11,7 @@ module Mutations
     def resolve(email:, password:)
       raise GraphQL::ExecutionError, "User already signed in" if context[:current_user]
 
-      hmac_secret = ENV["SECRET_KEY"]
+      hmac_secret = Rails.application.credentials.devise_jwt_secret_key!
       user = User.find_by(email:)
 
       raise GraphQL::ExecutionError, 'Email or Password is incorrect' unless user

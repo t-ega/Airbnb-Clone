@@ -20,7 +20,7 @@ class GraphqlController < ApplicationController
 
   private
   def current_user
-    hmac_secret = ENV["SECRET_KEY"]
+    hmac_secret = Rails.application.credentials.devise_jwt_secret_key!
     token = request.headers['Authorization'].to_s.split(' ').last
     return unless token
 
