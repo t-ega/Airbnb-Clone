@@ -2,6 +2,7 @@
 
 module Types
   class MutationType < Types::BaseObject
+    field :sign_out_mutation, mutation: Mutations::SignOutMutation
 
     # ------------------
     # Users

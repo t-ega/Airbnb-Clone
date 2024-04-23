@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
+  include JwtService
 
   # I have modified the default way Graphql handles it errors
   # @see config/initializers/execution_error.rb
@@ -21,11 +22,20 @@ class GraphqlController < ApplicationController
   private
   def current_user
     hmac_secret = Rails.application.credentials.devise_jwt_secret_key!
-    token = request.headers['Authorization'].to_s.split(' ').last
+    token = authorization_token
     return unless token
 
     user_id = JWT.decode token, hmac_secret, false, { algorithm: 'HS256' }
+
+    # Check if the token has not been blacklisted
+    blacklisted = token_blacklisted?(jti:user_id[0])
+    return if blacklisted
+
     User.find(user_id[0])
+  end
+
+  def authorization_token
+    request.headers['Authorization'].to_s.split(' ').last
   end
   def response_status(result)
     return "success" unless result.is_a?(Hash)

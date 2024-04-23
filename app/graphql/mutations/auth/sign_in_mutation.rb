@@ -3,6 +3,7 @@
 module Mutations
   module Auth
   class SignInMutation < BaseMutation
+    include JwtService
     argument :email, String, required: true
     argument :password, String, required: true
 
@@ -10,18 +11,18 @@ module Mutations
 
     def resolve(email:, password:)
       raise GraphQL::ExecutionError, "User already signed in" if context[:current_user]
-
-      hmac_secret = Rails.application.credentials.devise_jwt_secret_key!
-      user = User.find_by(email:)
+      user = User.find_for_database_authentication(email:)
 
       raise GraphQL::ExecutionError, 'Email or Password is incorrect' unless user
       raise GraphQL::ExecutionError, 'Email or Password is incorrect' unless user.valid_password?(password)
 
-      token = JWT.encode user.id, hmac_secret, 'HS256'
+      token = sign_user(user:)
+
       {
         token: token,
       }
     end
+
   end
   end
 end
