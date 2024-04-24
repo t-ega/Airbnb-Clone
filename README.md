@@ -14,6 +14,7 @@ This is the proposed roadmap for this app. I'll add more as times goes
 - [] Create a cron job to run the rake task
 - [] Send a confirmation token after sign up.
 - [] Create a confirmation endpoint to validate confirmation tokens.
+- [] Use Pundit for Authorization
 
 ## User stories
 
