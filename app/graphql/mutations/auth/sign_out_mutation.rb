@@ -11,7 +11,7 @@ module Mutations
       def resolve(**args)
         raise GraphQL::ExecutionError, "User not signed in" unless context[:current_user]
 
-        token = authorization_token
+        token = authorization_token(context[:request])
         record = sign_out_user(token)
 
         raise GraphQL::ExecutionError, "User not signed in" unless record.present?
@@ -19,7 +19,7 @@ module Mutations
       end
 
       private
-      def authorization_token
+      def authorization_token(request)
         request.headers['Authorization'].to_s.split(' ').last
       end
     end

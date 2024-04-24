@@ -18,8 +18,10 @@ module JwtService
     jti = token[0]["id"]
     exp = token[0]["exp"]
 
+    date = Time.at(exp).to_date
+
     # Blacklist the token
-    JwtDenylist.create!(jti:, exp:)
+    JwtDenylist.create!(jti:, exp:date)
   end
 
   def token_blacklisted?(jti:)
