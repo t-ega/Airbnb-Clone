@@ -3,8 +3,10 @@
 module Mutations
   module Auth
   class SignUpMutation < BaseMutation
+    include TokenService
 
-    type Types::UserType
+    field :user, Types::UserType
+    field :message, String, null: true
 
     argument :first_name, String, required: true
     argument :last_name, String, required: true
@@ -18,7 +20,10 @@ module Mutations
     def resolve(**args)
       user = User.new(args)
       if user.save
-        user
+        expires_at = 1.hour.from_now
+        create_token(user.id, expires_at)
+        # TODO: Implement sending token
+        { user:, message: "Created successfully. Check email for token" }
       else
         raise GraphQL::ExecutionError, user.errors.as_json.stringify_keys!
       end
