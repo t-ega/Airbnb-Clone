@@ -21,22 +21,26 @@ class GraphqlController < ApplicationController
 
   private
   def current_user
-    hmac_secret = Rails.application.credentials.devise_jwt_secret_key!
     token = authorization_token
     return unless token
 
-    user_id = JWT.decode token, hmac_secret, false, { algorithm: 'HS256' }
+    token = decoded_token(token)
+    jti = token[0].fetch("id", nil)
+    return unless jti  # Don't process if there is no jti on it.
+
+    user_id = token[0]["user_id"]
 
     # Check if the token has not been blacklisted
-    blacklisted = token_blacklisted?(jti:user_id[0])
+    blacklisted = token_blacklisted?(jti:)
     return if blacklisted
 
-    User.find(user_id[0])
+    User.find(user_id)
   end
 
   def authorization_token
     request.headers['Authorization'].to_s.split(' ').last
   end
+
   def response_status(result)
     return "success" unless result.is_a?(Hash)
     modified_keys = result.symbolize_keys
