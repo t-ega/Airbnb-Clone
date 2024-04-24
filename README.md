@@ -10,7 +10,7 @@ This is the proposed roadmap for this app. I'll add more as times goes
     - Enable email sending features using a worker e.g RabbitMQ
 
 ### TODO
-- [] Create a Rake task to automatically delete blacklisted token after they have expired
+- [X] Create a Rake task to automatically delete blacklisted token after they have expired
 - [] Create a cron job to run the rake task
 
 ## User stories
