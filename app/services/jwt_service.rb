@@ -1,7 +1,7 @@
 module JwtService
 
   HMAC_SECRET = Rails.application.credentials.devise_jwt_secret_key!.freeze
-  EXPIRY_TIME = (Time.now + 1.day).to_i
+  EXPIRY_TIME = 1.day.from_now.to_i
 
   def sign_user(user:)
     return unless user.is_a?(User)
