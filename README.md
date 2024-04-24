@@ -9,6 +9,10 @@ This is the proposed roadmap for this app. I'll add more as times goes
     - Add support for auth using JWT tokens
     - Enable email sending features using a worker e.g RabbitMQ
 
+### TODO
+Create a Rake task to automatically delete blacklisted token after they have expired
+Create a cron job to run the rake task
+
 ## User stories
 
 This is a simplified version of Airbnb. Only worry about user stories described here.
