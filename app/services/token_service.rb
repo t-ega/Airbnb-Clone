@@ -1,10 +1,12 @@
 module TokenService
+  # Leave here to avoid Time zone issues
+  Time.zone = "UTC"
 
   def find_token(token:, user_id:)
-    token = Token.find_by(token:, user_id:)
+    token = Token.find_by(token:, user_id:, is_used: false)
     return unless token
 
-    expired = token.expires_at > Time.now
+    expired = token.expires_at < Time.zone.now
     return if expired
 
     token

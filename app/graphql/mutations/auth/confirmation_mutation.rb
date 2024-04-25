@@ -12,11 +12,14 @@ module Mutations
       argument :user_id, String, required: true
 
       def resolve(token:, user_id:)
+
         token = find_token(token:, user_id:)
         raise GraphQL::ExecutionError, "Token invalid or expired" unless token
 
-        user = User.find(id: user_id)&.update(confirmed_at: Time.now)
+        user = User.find(user_id)
         return {status: :error, message: "User with specified id doesn't exist"} unless user
+
+        user.update(confirmed_at: Time.now) unless user.confirmed_at
 
         update_token_status(token)
         {status: :success, message: "User successfully verified!"}
