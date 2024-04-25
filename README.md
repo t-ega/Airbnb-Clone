@@ -11,7 +11,7 @@ This is the proposed roadmap for this app. I'll add more as times goes
 
 ### TODO
 - [X] Create a Rake task to automatically delete blacklisted JWT Auth tokens after they have expired.
-- [] Create a Rake task to delete all tokens after they have expired
+- [X] Create a Rake task to delete all tokens after they have expired
 - [] Create a cron job to run the rake task
 - [X] Send a confirmation token after sign up.
 - [X] Send a reset token after requesting for one.
