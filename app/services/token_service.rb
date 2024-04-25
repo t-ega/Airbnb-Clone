@@ -22,7 +22,7 @@ module TokenService
   # this by passing in the expiry time as a second argument.
   # The purpose states what the token generated is for
   # e.g :password_reset
-  def create_token(user_id, expires_at = nil, purpose)
+  def create_token(user_id:, expires_at: nil, purpose:)
     rand_token = generate_token
     expires_at ||= 1.day.from_now.to_i
     Token.create(user_id:, token: rand_token, expires_at:, purpose:)

@@ -15,10 +15,11 @@ module Mutations
         raise GraphQL::ExecutionError, "Email doesn't exist" unless user
 
         expires_at = 1.hour.from_now
-        t = create_token(user.id, expires_at, Purpose::RESET)
+        token = create_token(user_id: user.id, expires_at:, purpose: Purpose::RESET)
 
         # TODO: Implement actual sending of the token
-        {status: "success", message: "Reset Token sent. #{t.token}"}
+        TokenMailer.with(user:, token: token.token).reset_password.deliver_later
+        {status: "success", message: "Reset Token sent."}
       end
     end
   end
