@@ -17,7 +17,7 @@ module Mutations
         user = User.find_by(email:)
         raise GraphQL::ExecutionError, "User with that email doesn't exist" unless user
 
-        token = find_token(token: , user_id: user.id)
+        token = find_token(token: , user_id: user.id, purpose: Purpose::RESET)
         raise GraphQL::ExecutionError, "Token expired or invalid" unless token
 
         match = (password == password_confirmation)
