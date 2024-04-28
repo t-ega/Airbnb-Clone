@@ -54,7 +54,7 @@ Payments and the rest to come up later...
 - Browse listings
 - See past reviews of the listing, and other listings by the same hosts, and of the host when they were a guest
 - Bookmark listings
-- Send a message to the owner of a listing
+  - Send a message to the owner of a listing
 - See the nights a listing is available for
 - Send a request for available nights
 - Include an introduction of myself
