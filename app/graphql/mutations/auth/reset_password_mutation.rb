@@ -3,7 +3,6 @@
 module Mutations
   module Auth
     class ResetPasswordMutation < BaseMutation
-      include TokenService
 
       field :status, String, null: true
       field :message, String, null: true
@@ -15,9 +14,8 @@ module Mutations
         raise GraphQL::ExecutionError, "Email doesn't exist" unless user
 
         expires_at = 1.hour.from_now
-        token = create_token(user_id: user.id, expires_at:, purpose: Purpose::RESET)
+        token = TokenService.create_token(user_id: user.id, expires_at:, purpose: TokenService::Purpose::RESET)
 
-        # TODO: Implement actual sending of the token
         TokenMailer.with(user:, token: token.token).reset_password.deliver_later
         {status: "success", message: "Reset Token sent."}
       end

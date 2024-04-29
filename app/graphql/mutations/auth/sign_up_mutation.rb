@@ -3,7 +3,6 @@
 module Mutations
   module Auth
   class SignUpMutation < BaseMutation
-    include TokenService
 
     field :user, Types::UserType
     field :message, String, null: true
@@ -21,7 +20,7 @@ module Mutations
       user = User.new(args)
       if user.save
         expires_at = 1.hour.from_now
-        token = create_token(user_id: user.id, expires_at:, purpose: Purpose::CONFIRMATION)
+        token = TokenService.create_token(user_id: user.id, expires_at:, purpose: TokenService::Purpose::CONFIRMATION)
         TokenMailer.with(user:, token:token.token).confirm_email.deliver_later
         { user:, message: "Created successfully. Check email for token" }
       else

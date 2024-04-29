@@ -3,7 +3,6 @@
 module Mutations
   module Auth
     class ConfirmationMutation < BaseMutation
-      include TokenService
 
       field :status, String, null: false
       field :message, String, null: false
@@ -13,7 +12,7 @@ module Mutations
 
       def resolve(token:, user_id:)
 
-        token = find_token(token:, user_id:, purpose: Purpose::CONFIRMATION)
+        token = TokenService.find_token(token:, user_id:, purpose: Purpose::CONFIRMATION)
         raise GraphQL::ExecutionError, "Token invalid or expired" unless token
 
         user = User.find(user_id)
@@ -21,7 +20,7 @@ module Mutations
 
         user.update(confirmed_at: Time.now) unless user.confirmed_at
 
-        update_token_status(token)
+        TokenService.update_token_status(token)
         {status: :success, message: "User successfully verified!"}
       end
     end
