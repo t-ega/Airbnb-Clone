@@ -1,89 +1,20 @@
 <section class="mx-auto max-w-6xl px-4 py-2 sm:px-6 lg:px-8">
   <div class="mt-8 grid gap-8">
-    <%= reviews.each do |review| %>
+    <% reviews.includes(:reviewer).each do |review| %>
         <article class="grid grid-cols-[48px_1fr] items-start gap-4">
       <span class="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
         <img class="aspect-square h-full w-full" alt="@username" src="/placeholder-user.jpg" />
       </span>
       <div class="space-y-2">
         <div class="flex items-center gap-2 text-sm font-medium">
-          <span>Scott</span>
+          <span><%= review.reviewer.full_name %></span>
           <span class="text-gray-500 dark:text-gray-400">Bernard Hill, California</span>
         </div>
         <div class="flex items-center gap-1 text-xs font-semibold">
           <div class="flex items-center gap-px">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-3 w-3 fill-primary"
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-3 w-3 fill-primary"
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-3 w-3 fill-primary"
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-3 w-3 fill-primary"
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-3 w-3 fill-muted stroke-muted-foreground"
-            >
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
+            <%= display_star_rating(review.rating) %>
           </div>
-          <span>1 week ago</span>
+          <span><%= time_ago_in_words(review.created_at) %> ago</span>
         </div>
         <p>
           <%= review.content %>
@@ -91,6 +22,7 @@
 
       </div>
     </article>
+
     <% end %>
   </div>
 </section>

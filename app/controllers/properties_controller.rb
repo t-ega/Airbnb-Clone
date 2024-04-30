@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
   def show
-    @property = Property.find(params[:id])
+    @property = Property.includes(:reviews).find(params[:id])
   end
 end

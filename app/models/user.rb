@@ -20,4 +20,8 @@ class User < ApplicationRecord
   # Relationships
   # ---------------
   has_many :tokens, dependent: :destroy
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end
