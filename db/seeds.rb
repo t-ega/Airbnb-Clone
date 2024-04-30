@@ -1,9 +1,9 @@
 # Todo: Use Rails upsert_all feature for bulk updates
 10.times do
   property = Property.create!(
-      name: Faker::Lorem.word,
-      headline: Faker::Lorem.sentence,
-      description: Faker::Lorem.sentence,
+      name: "#{Faker::Address.community} #{Faker::Company.buzzword} #{Faker::Address.street_suffix}",
+      headline: Faker::Lorem.sentence(word_count: 40),
+      description: Faker::Lorem.paragraph(sentence_count: 10),
       address: Faker::Address.street_address,
       city: Faker::Address.city,
       state: Faker::Address.state,
