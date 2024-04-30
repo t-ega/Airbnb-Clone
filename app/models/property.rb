@@ -6,11 +6,10 @@ class Property < ApplicationRecord
   validates :country, presence: true
   validates :city, presence: true
   validates :address, presence: true
+  validates :host, presence: true
 
   has_many_attached :images, dependent: :destroy
   has_many :reviews, dependent: :destroy, as: :reviewable
+  belongs_to :host, class_name: "User"
 
-  def average_rating
-    reviews.average(:rating).round(2)
-  end
 end

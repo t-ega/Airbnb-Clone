@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_30_130439) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_30_161626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_130439) do
     t.string "address"
     t.string "string"
     t.decimal "average_rating"
+    t.bigint "host_id", null: false
+    t.decimal "price", default: "0.0", null: false
+    t.index ["host_id"], name: "index_properties_on_host_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -42,7 +45,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_130439) do
     t.string "reviewable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "reviewer_id", null: false
     t.index ["reviewable_id", "reviewable_type"], name: "index_reviews_on_reviewable_id_and_reviewable_type"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -73,5 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_30_130439) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "properties", "users", column: "host_id"
+  add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "tokens", "users"
 end
