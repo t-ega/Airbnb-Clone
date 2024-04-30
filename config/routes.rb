@@ -9,6 +9,8 @@ Rails.application.routes.draw do
    registrations: 'users/registrations'
   }
 
+  resources :home
+
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
