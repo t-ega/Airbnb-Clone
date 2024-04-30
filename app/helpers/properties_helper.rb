@@ -1,6 +1,5 @@
 module PropertiesHelper
   def display_star_rating(rating)
-    puts "Called"
     html_content = ""
 
     rating.times do
