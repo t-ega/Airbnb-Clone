@@ -1,0 +1,68 @@
+<div data-controller="reservation-component" data-unit-price="<%= property.price %>">
+<div class="flex sm:hidden flex-col gap-1">
+  <h2 class="sm:text-2xl font-semibold">Home in Santa Cruz, California, United States</h2>
+  <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400">
+    2 guests · 1 bedroom · 1 bed · 1 bath · Wifi · Kitchen
+  </p>
+</div>
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+  <div class="flex flex-col space-y-1.5 p-6">
+    <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
+      $<%= property.price %>
+      <span class="text-sm text-gray-500 font-normal dark:text-gray-400">/ night</span>
+    </h3>
+  </div>
+  <div class="p-6 grid gap-6">
+    <form>
+      <div class="grid gap-2">
+        <div class="flex gap-2">
+          <button
+            class="inline-flex justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground px-4 py-2 w-full flex-col h-auto items-start"
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="radix-:Rvatafnnja:"
+            data-state="closed"
+          >
+            <span class="font-semibold uppercase text-[0.65rem]">Check in</span>
+            <label>
+              <input class="font-normal" value="<%= Date.current.strftime("%m/%d/%y") %>" data-reservation-component-target="checkin" />
+            </label>
+          </button>
+          <button
+            class="inline-flex justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground px-4 py-2 w-full flex-col h-auto items-start"
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="radix-:R1fatafnnja:"
+            data-state="closed"
+          >
+            <span class="font-semibold uppercase text-[0.65rem]">Check out</span>
+            <label>
+              <input value="<%= (1.day.from_now).strftime("%m/%d/%y") %>" class="font-normal" data-reservation-component-target="checkout" />
+            </label>
+          </button>
+        </div>
+        <div class="m-2">
+          <div class="flex justify-between mt-2">
+            <p>Cleaning Fee</p>
+            <p>$800</p>
+          </div>
+          <div class="flex justify-between mt-2">
+            <p>Service Fee</p>
+            <p>$800</p>
+          </div>
+          <div class="flex justify-between mt-2">
+            <p>$<%= property.price %> x <span data-reservation-component-target="nightsCount">1</span> night(s)</p>
+            <p data-reservation-component-target="propertyPrice">$<%= calculate_property_price(property.price, 1) %></p>
+          </div>
+        </div>
+        <button class="h-10 border rounded-md w-full bg-red-700 text-white">
+          Book Now
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+</div>
