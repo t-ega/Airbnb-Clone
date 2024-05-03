@@ -19,9 +19,6 @@ module Mutations
     def resolve(**args)
       user = User.new(args)
       if user.save
-        expires_at = 1.hour.from_now
-        token = TokenService.create_token(user_id: user.id, expires_at:, purpose: TokenService::Purpose::CONFIRMATION)
-        TokenMailer.with(user:, token:token.token).confirm_email.deliver_later
         { user:, message: "Created successfully. Check email for token" }
       else
         raise GraphQL::ExecutionError, user.errors.as_json.stringify_keys!

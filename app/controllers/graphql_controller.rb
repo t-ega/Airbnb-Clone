@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class GraphqlController < ApplicationController
-  include JwtService
 
   # I have modified the default way Graphql handles it errors
   # @see config/initializers/execution_error.rb
@@ -10,8 +9,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      current_user:,
-      request:
+      current_user: AuthService.current_user(authorization_token),
     }
     result = AirbnbCloneSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: { status: response_status(result.to_h), **result }
@@ -21,23 +19,6 @@ class GraphqlController < ApplicationController
   end
 
   private
-  def current_user
-    token = authorization_token
-    return unless token
-
-    token = decoded_token(token)
-    jti = token[0].fetch("id", nil)
-    return unless jti  # Don't process if there is no jti on it.
-
-    user_id = token[0]["user_id"]
-
-    # Check if the token has not been blacklisted
-    blacklisted = token_blacklisted?(jti:)
-    return if blacklisted
-
-    User.find(user_id)
-  end
-
   def authorization_token
     request.headers['Authorization'].to_s.split(' ').last
   end

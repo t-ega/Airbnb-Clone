@@ -1,0 +1,67 @@
+module AuthService
+
+  HMAC_SECRET = Rails.application.credentials.devise_jwt_secret_key!.freeze
+  EXPIRY_TIME = 1.day.from_now.to_i
+  Time.zone = "UTC"
+
+  class << self
+    def sign_user(user:)
+      return unless user.is_a?(User)
+
+      session_id = generate_unique_session_id
+      Session.create!(session_id: session_id, user_id: user.id)
+
+      claim = {user_id: user.id, exp: EXPIRY_TIME, session_id: session_id}
+
+      JWT.encode claim, HMAC_SECRET, 'HS256'
+    end
+
+    def current_user(authorization_token)
+      return unless authorization_token
+
+      token = decode_token(token)
+      session_id = token[0].fetch("session_id", nil)
+      return unless session_id  # Don't process if there is no session id on it.
+
+      # Check if the session is still valid
+      invalid = session_valid?(session_id)
+      return if invalid
+
+      user_id = token[0]["user_id"]
+      User.find(user_id)
+    end
+
+    def sign_out_user(claim)
+      token = decode_token(claim)
+      return unless token
+
+      session_id = token[0]["session_id"]
+      user_id = token[0]["user_id"]
+
+      date = Time.zone.current
+
+      # Set the logout field on the sessions
+      Session.create!(session_id:session_id, user_id:user_id, logout_date:date)
+    end
+
+    def session_valid?(session_id)
+      Session.where(session_id:session_id).logout_time.nil?
+    end
+
+    private
+    def generate_unique_session_id
+      loop do
+        session_id = SecureRandom.uuid
+        break session_id unless Session.exists?(session_id: session_id)
+      end
+    end
+
+    def decode_token(token)
+      begin
+         JWT.decode(token, HMAC_SECRET, true, {algorithm: "HS256"})
+      rescue JWT::DecodeError
+        nil
+      end
+    end
+    end
+end

@@ -1,69 +1,69 @@
-# README
+# Airbnb Clone
 
-This is the proposed roadmap for this app. I'll add more as times goes
+This project is an Airbnb clone built with Ruby on Rails, using a monolithic architecture for the web views and GraphQL for the API endpoints.
 
-- Implement endpoints using graphql
-- Enable CORS for production mode
-- Users
-  - Authentication
-    - Add support for auth using JWT tokens
-    - Enable email sending features using a worker e.g RabbitMQ
+## Features
 
-### TODO
-- [X] Create a Rake task to automatically delete blacklisted JWT Auth tokens after they have expired.
-- [X] Create a Rake task to delete all tokens after they have expired
-- [] Create a cron job to run the rake task
-- [X] Send a confirmation token after sign up.
-- [X] Send a reset token after requesting for one.
-- [X] Create a confirmation endpoint to validate confirmation tokens.
-- [] Use Pundit for Authorization
+- User authentication: Sign up, log in, and log out functionality.
+- Property listings: Users can create, view, update, and delete property listings.
+- Search functionality: Users can search for properties based on location, dates, and other criteria.
+- Booking system: Users can make bookings for available properties.
+- Reviews and ratings: Users can leave reviews and ratings for properties they have booked.
 
-## User stories
+## Technologies Used
 
-This is a simplified version of Airbnb. Only worry about user stories described here.
-Payments and the rest to come up later...
+- Ruby on Rails: A web application framework written in Ruby.
+- GraphQL: A query language for APIs that provides a more efficient and flexible way to request data.
+- PostgreSQL: A relational database management system for storing application data.
+- Active Storage: A built-in library for managing file uploads in Rails.
+- Front-end technologies: HTML, Tailwind CSS, and Hotwire for building the user interface.
 
-### As a host, I should be able to...
+Please visit the ROADMAP.md section to see the proposed plan for this project.
 
-- Add a listing
-- Title
-- Private room or entire home
-- Photos (taken by host)
-- Description
-- Number of bedrooms
-- Number of bathrooms
-- Number of beds
-- Max occupants
-- City
-- Neighborhood
-- Policies (check-in time, house rules, etc)
-- Default price per night
-- Specify which nights the unit is available
-- Price (if different from default)
-- Respond to messages from guests
-- Review and accept requests
-- See past reviews of the requester (both as guests and of listings where they were host)
-- See a message history between myself and the requester
-- Leave a review of a guest
-- Overall rating (1-5)
-- Which booking this review is for (we'll keep this private, though)
-- Body (freeform text)
+## Installation
 
-### As a guest, I should be able to...
+1. Clone the repository:
+   ```shell
+   git clone https://github.com/t-ega/Airbnb-Clone.git
+   ```
 
-- Browse listings
-- See past reviews of the listing, and other listings by the same hosts, and of the host when they were a guest
-- Bookmark listings
-  - Send a message to the owner of a listing
-- See the nights a listing is available for
-- Send a request for available nights
-- Include an introduction of myself
-- Not send a request for unavailable nights
-- Leave a review of a booking
-- Accuracy (1-5)
-- Communication (1-5)
-- Cleanliness (1-5)
-- Location (1-5)
-- Check In (1-5)
-- Value (1-5)
-- Body (freeform text)
+2. Install dependencies using Bundler:
+   ```shell
+   bundle install
+   ```
+
+3. Set up the database by running the migrations:
+   ```shell
+   rails db:migrate db:seed
+   ```
+
+4. Start the Rails server:
+   ```shell
+   bin/dev
+   ```
+
+5. Open your web browser and access the application at `http://localhost:3000`.
+
+## Configuration
+
+- Database configuration: Update the `config/database.yml` file with your PostgreSQL database credentials.
+- Environment variables: 
+## Usage
+
+- Visit the homepage and sign up for a new account.
+- Explore the available properties, search for listings, and view property details.
+- Create your own property listings, update existing listings, and delete your own listings.
+- Make bookings for available properties and leave reviews and ratings after your stay.
+
+## Contributing
+
+Contributions to this project are welcome. Feel free to open issues or submit pull requests for bug fixes, feature enhancements, or other improvements.
+
+## Acknowledgements
+
+- [Elbie Moonga](https://github.com/Elbie-em): Mentorship and guidance
+- [Abiodun Onisade](): Mentorship and guidance
+- [Airbnb](https://www.airbnb.com): Inspiration for the project idea and design.
+- [Rails Guides](https://guides.rubyonrails.org): Official documentation for Ruby on Rails.
+
+Feel free to customize this README file based on your project's specific requirements and technologies used. Include any additional information, instructions, or guidelines that would be helpful for other developers or contributors.

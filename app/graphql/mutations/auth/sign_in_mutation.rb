@@ -3,7 +3,7 @@
 module Mutations
   module Auth
   class SignInMutation < BaseMutation
-    include JwtService
+    include AuthService
     argument :email, String, required: true
     argument :password, String, required: true
 

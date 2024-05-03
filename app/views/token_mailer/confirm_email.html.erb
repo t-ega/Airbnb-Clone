@@ -10,7 +10,7 @@
   your username is: <%= @user.first_name %>.<br>
 </p>
 <p>
-  To login to the site, use this token to activate your account: <%= @token %>.
+  To login to the site, click this link to activate your account: <%= user_confirmation_url(@resource, :confirmation_token => @token) %>.
 </p>
 <p>Thanks for joining and have a great day!</p>
 </body>

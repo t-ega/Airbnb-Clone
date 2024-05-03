@@ -2,6 +2,7 @@
 
 module Types
   class MutationType < Types::BaseObject
+    # field :property, mutation: Mutations::Properties::PropertyMutation
 
     # ------------------
     # Auth

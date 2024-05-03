@@ -26,7 +26,7 @@ module TokenService
     def create_token(user_id:, expires_at: nil, purpose:)
       rand_token = generate_token
       expires_at ||= 1.day.from_now.to_i
-      Token.create(user_id:, token: rand_token, expires_at:, purpose:)
+      Token.create(user_id:user_id, token: rand_token, expires_at:expires_at, purpose:purpose)
     end
 
     def update_token_status(token)
@@ -37,7 +37,10 @@ module TokenService
 
     private
     def generate_token
-      rand(1000..9999)
+      loop do
+        token = rand(1000..9999)
+        break token unless Token.exists?(token: token)
+      end
     end
   end
 end

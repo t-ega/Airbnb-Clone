@@ -3,7 +3,7 @@
 module Mutations
   module Auth
     class SignOutMutation < BaseMutation
-      include JwtService
+      include AuthService
 
       field :status, String, null: true
       field :error, String, null: true

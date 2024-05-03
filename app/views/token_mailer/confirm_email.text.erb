@@ -4,6 +4,7 @@ Welcome to example.com, <%= @user.first_name %>
 You have successfully signed up to example.com,
 your username is: <%= @user.first_name %>.
 
-To login to the site, just use this token to confirm your account: <%= @token %>.
+To login to the site, click this link to activate your account: <%= user_confirmation_url(@resource, :confirmation_token => @token) %>.
+
 
 Thanks for joining and have a great day!

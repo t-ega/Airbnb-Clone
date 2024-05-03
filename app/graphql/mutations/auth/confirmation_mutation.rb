@@ -12,7 +12,7 @@ module Mutations
 
       def resolve(token:, user_id:)
 
-        token = TokenService.find_token(token:, user_id:, purpose: Purpose::CONFIRMATION)
+        token = TokenService.find_token(token:, user_id:, purpose: TokenService::Purpose::CONFIRMATION)
         raise GraphQL::ExecutionError, "Token invalid or expired" unless token
 
         user = User.find(user_id)
