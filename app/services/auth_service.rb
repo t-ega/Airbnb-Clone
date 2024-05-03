@@ -44,6 +44,10 @@ module AuthService
       Session.create!(session_id:session_id, user_id:user_id, logout_date:date)
     end
 
+    def send_reset_instructions(user)
+      user.send_reset_password_instructions
+    end
+
     def session_valid?(session_id)
       Session.where(session_id:session_id).logout_time.nil?
     end

@@ -18,10 +18,6 @@ module TokenService
       token
     end
 
-    def send_reset_instructions(user)
-      user.send_reset_password_instructions
-    end
-
     # Create a token for a specified user.
     # Default expiry time is 1 day, but you can override.
     # this by passing in the expiry time as a second argument.

@@ -3,7 +3,6 @@
 module Mutations
   module Auth
     class SignOutMutation < BaseMutation
-      include AuthService
 
       field :status, String, null: true
       field :error, String, null: true
@@ -12,7 +11,7 @@ module Mutations
         raise GraphQL::ExecutionError, "User not signed in" unless context[:current_user]
 
         token = authorization_token(context[:request])
-        record = sign_out_user(token)
+        record = AuthService.sign_user(token)
 
         raise GraphQL::ExecutionError, "User not signed in" unless record.present?
         { status: "Success" }

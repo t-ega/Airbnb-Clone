@@ -12,7 +12,7 @@ module Mutations
       def resolve(email:)
         user = User.find_by(email:)
         raise GraphQL::ExecutionError, "Email doesn't exist" unless user
-        TokenService.send_reset_instructions(user)
+        AuthService.send_reset_instructions(user)
         {status: "success", message: "Reset Token sent."}
       end
     end

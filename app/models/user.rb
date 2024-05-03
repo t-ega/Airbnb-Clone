@@ -15,10 +15,13 @@ class User < ApplicationRecord
             format: { with: EMAIL_REGEX, message: "Email format not recognized" },
             uniqueness: { message: "A user with this email already exists" }
 
+
   # --------------
   # Relationships
   # ---------------
   has_many :tokens, dependent: :destroy
+  has_many :reservations, dependent: :destroy
+  has_many :properties, dependent: :destroy
 
   def full_name
     "#{first_name} #{last_name}"
