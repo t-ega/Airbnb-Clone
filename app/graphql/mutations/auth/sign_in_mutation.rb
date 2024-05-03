@@ -17,7 +17,7 @@ module Mutations
       raise GraphQL::ExecutionError, 'Email or Password is incorrect' unless user.valid_password?(password)
       raise GraphQL::ExecutionError, "User not yet verified" unless user.confirmed_at.present?
 
-      token = sign_user(user:)
+      token = AuthService.sign_user(user)
 
       {
         token: token,

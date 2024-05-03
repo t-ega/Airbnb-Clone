@@ -5,7 +5,7 @@ module AuthService
   Time.zone = "UTC"
 
   class << self
-    def sign_user(user:)
+    def sign_user(user)
       return unless user.is_a?(User)
 
       session_id = generate_unique_session_id
@@ -54,7 +54,7 @@ module AuthService
         session_id = SecureRandom.uuid
         break session_id unless Session.exists?(session_id: session_id)
       end
-    end
+      end
 
     def decode_token(token)
       begin

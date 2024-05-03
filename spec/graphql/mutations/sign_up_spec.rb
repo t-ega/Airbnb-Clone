@@ -19,7 +19,7 @@ module Mutations
 
         expect do
           post '/graphql', params: { query: query(**user_params) }
-        end.to change { User.count }.by(1).and have_enqueued_job(ActionMailer::MailDeliveryJob)
+        end.to change { User.count }.by(1).and have_enqueued_job(Devise.mailer.deliveries)
 
         json = JSON.parse(response.body)
         data = json.dig('data', "signUpMutation", "user")
@@ -30,6 +30,7 @@ module Mutations
 
         user = User.find_by(email: user_params[:email])
         expect(user.confirmed_at).to be_nil
+        expect(Devise.mailer.deliveries.count).to eq(1)
 
       end
 

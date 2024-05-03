@@ -17,7 +17,7 @@ RSpec.describe "Reset password", type: :request do
 
       expect do
         post "/graphql", params: {query: query(email)}
-      end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end.to have_enqueued_job(Devise.mailer.deliveries)
 
       json = JSON.parse(response.body)
       error = json["errors"]

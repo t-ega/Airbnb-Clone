@@ -18,6 +18,11 @@ module TokenService
       token
     end
 
+    def generate_reset_token(user)
+      expires_at = 1.hour.from_now
+      create_token(user_id: user.id, expires_at:, purpose: TokenService::Purpose::RESET)
+    end
+
     # Create a token for a specified user.
     # Default expiry time is 1 day, but you can override.
     # this by passing in the expiry time as a second argument.

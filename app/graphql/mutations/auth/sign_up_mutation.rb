@@ -19,7 +19,7 @@ module Mutations
     def resolve(**args)
       user = User.new(args)
       if user.save
-        { user:, message: "Created successfully. Check email for token" }
+        { user:user, message: "Created successfully. Check email for token" }
       else
         raise GraphQL::ExecutionError, user.errors.as_json.stringify_keys!
       end
