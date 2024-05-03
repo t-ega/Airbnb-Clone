@@ -6,7 +6,7 @@ FactoryBot.define do
     address {"MyString"}
     city { "MyString" }
     state { "MyString" }
-    host_id {1}
+    host {FactoryBot.create(:user)}
     country { "MyString" }
   end
 end

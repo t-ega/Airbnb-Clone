@@ -7,22 +7,19 @@ RSpec.describe "Reset password", type: :request do
       email = Faker::Internet.email
       password = Faker::Internet.password
 
-      FactoryBot.create(:user,
-                        first_name: Faker::Name.first_name,
-                        last_name: Faker::Name.last_name,
-                        email: email,
-                        password: password ,
-                        password_confirmation: password,
-                        )
 
-      expect do
-        post "/graphql", params: {query: query(email)}
-      end.to have_enqueued_job(Devise.mailer.deliveries)
+      user = User.new(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name,
+                 email: email, password: password , password_confirmation: password,)
+      user.skip_confirmation!
+      user.save!
+
+      post "/graphql", params: {query: query(email)}
 
       json = JSON.parse(response.body)
       error = json["errors"]
 
       expect(error).to be_nil
+      expect(Devise.mailer.deliveries.count).to eq(1)
 
     end
 

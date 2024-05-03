@@ -18,9 +18,8 @@ module TokenService
       token
     end
 
-    def generate_reset_token(user)
-      expires_at = 1.hour.from_now
-      create_token(user_id: user.id, expires_at:, purpose: TokenService::Purpose::RESET)
+    def send_reset_instructions(user)
+      user.send_reset_password_instructions
     end
 
     # Create a token for a specified user.
