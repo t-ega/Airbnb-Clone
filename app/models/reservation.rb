@@ -7,7 +7,6 @@ class Reservation < ApplicationRecord
   validates :checkout_date, presence: true, comparison: { greater_than: :checkin_date }
   validate :overlapping_reservations
 
-  # has_one :payment
   belongs_to :guest, class_name: "User"
   belongs_to :property
 
