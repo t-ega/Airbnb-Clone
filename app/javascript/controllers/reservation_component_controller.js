@@ -16,7 +16,7 @@ export default class extends Controller {
         firstDay: 0
     };
     connect(){
-        console.log("Inside the reservation component")
+        console.log("Inside the reservation component", this.buildSubmitUrl("/reservation/"))
         let dpMin, dpMax;
 
 
@@ -56,11 +56,35 @@ export default class extends Controller {
         return days
     }
 
-
-    updatePropertyPrice(){
+    calculateTotal(){
         let price = this.element.dataset.unitPrice;
         const days = this.calculateDaysCount();
-        const amount = price * days;
+        return price * days;
+    }
+
+    updatePropertyPrice(){
+        const amount = this.calculateTotal();
         this.propertyPriceTarget.innerText = `$${amount}`
     }
+
+    buildQueryParams(){
+        const params = {
+            checkin_date: this.checkinTarget.value,
+            checkout_date: this.checkoutTarget.value,
+            total: this.calculateTotal()
+        }
+        return new URLSearchParams(params).toString();
+    }
+
+    buildSubmitUrl(url){
+        const queryParams = this.buildQueryParams();
+        return `${url}?${queryParams}`
+    }
+
+    submitReservation(e) {
+        const url = e.target.dataset.submitUrl;
+        e.preventDefault()
+        Turbo.visit(this.buildSubmitUrl(url));
+    }
+
 }

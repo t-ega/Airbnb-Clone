@@ -12,8 +12,16 @@ class Reservation < ApplicationRecord
   belongs_to :property
 
   def self.book_reservation(reservation_details)
-    Reservation.create(reservation_details)
+    total = calculate_total(reservation_details[:property_id], reservation_details[:checkin_date], reservation_details[:checkout_date])
+    Reservation.create({total:total, **reservation_details})
   end
+
+  def self.calculate_total(property_id, checkin_date, checkout_date)
+    days = (Date.parse(checkout_date) - Date.parse(checkin_date)).to_i
+    property = Property.find(property_id)
+    (property.price * days)
+  end
+
 
   private
 
@@ -25,8 +33,8 @@ class Reservation < ApplicationRecord
       checkin_date
     ).exists?
 
-    self.errors.add(:checkin_date, "A reservation already exists for either of the checkin or checkout date")
-    self.errors.add(:checkout_date, "A reservation already exists for either of the checkin or checkout date")
+    self.errors.add(:checkin_date, "A reservation already exists for either of the checkin or checkout date") if overlapping
+    self.errors.add(:checkout_date, "A reservation already exists for either of the checkin or checkout date") if overlapping
 
   end
 

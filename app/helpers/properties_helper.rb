@@ -30,7 +30,7 @@ module PropertiesHelper
     html_content.html_safe
   end
 
-  def calculate_property_price(price, nights=1)
+  def calculate_property_total_price(price, nights=1)
     price * nights
   end
 end

@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   }
 
   resources :home, only: %i[index]
-  resources :properties, only: %i[show]
+  resources :properties, only: %i[show], module: "properties" do
+    resources :reservations, only: %i[create, new]
+  end
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
