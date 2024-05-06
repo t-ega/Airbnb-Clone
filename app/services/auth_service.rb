@@ -26,8 +26,8 @@ module AuthService
       return unless session_id  # Don't process if there is no session id on it.
 
       # Check if the session is still valid
-      invalid = session_valid?(session_id)
-      return if invalid
+      valid = session_valid?(session_id)
+      return unless valid
 
       user_id = token[0]["user_id"]
       User.find(user_id)
@@ -40,10 +40,10 @@ module AuthService
       session_id = token[0]["session_id"]
       user_id = token[0]["user_id"]
 
-      date = Time.zone.current
+      current_time = Time.zone.current
 
       # Set the logout field on the sessions
-      Session.create!(session_id:session_id, user_id:user_id, logout_date:date)
+      Session.create!(session_id:session_id, user_id:user_id, logout_time:current_time)
     end
 
     def send_reset_instructions(user)
@@ -51,7 +51,7 @@ module AuthService
     end
 
     def session_valid?(session_id)
-      Session.where(session_id:session_id).logout_time.nil?
+      Session.find_by(session_id:session_id).logout_time.nil?
     end
 
     private
