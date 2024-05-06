@@ -26,9 +26,8 @@ module Types
 
     def properties
       authenticate_user!
-      puts property(1)
-      Property.all
 
+      Property.all
     end
 
     field :property, Types::PropertyType, null: false do

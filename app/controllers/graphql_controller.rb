@@ -25,9 +25,7 @@ class GraphqlController < ApplicationController
 
 
   def current_user
-    puts "MADE A CALLL"
-    # memoize the user
-    @current_user ||= AuthService.current_user(authorization_token)
+    AuthService.current_user(authorization_token)
   end
 
   def response_status(result)

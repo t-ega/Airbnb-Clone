@@ -17,10 +17,10 @@ module AuthService
     end
 
     def current_user(authorization_token)
-      puts "made a call"
       return unless authorization_token
 
       token = decode_token(authorization_token)
+      return unless token
 
       session_id = token[0].fetch("session_id", nil)
       return unless session_id  # Don't process if there is no session id on it.

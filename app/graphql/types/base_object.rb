@@ -10,7 +10,7 @@ module Types
 
     def authenticate_user!
       if context[:current_user].blank?
-        raise GraphQL::ExecutionError, "Authentication failed, you must provide a valid token!"
+        raise GraphQL::ExecutionError.new("Authentication failed, you must provide a valid token!", extensions: { code: ErrorCodes.unauthorized })
       end
     end
   end
