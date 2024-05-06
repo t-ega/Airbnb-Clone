@@ -13,9 +13,9 @@ module Mutations
       raise GraphQL::ExecutionError, "User already signed in" if context[:current_user]
       user = User.find_for_database_authentication(email:)
 
-      raise GraphQL::ExecutionError, 'Email or Password is incorrect' unless user
-      raise GraphQL::ExecutionError, 'Email or Password is incorrect' unless user.valid_password?(password)
-      raise GraphQL::ExecutionError, "User not yet verified" unless user.confirmed_at.present?
+      raise GraphQL::ExecutionError.new('Email or Password is incorrect', extensions: {code: ErrorCodes.invalid_credentials}) unless user
+      raise GraphQL::ExecutionError.new('Email or Password is incorrect', extensions: {code: ErrorCodes.invalid_credentials}) unless user.valid_password?(password)
+      raise GraphQL::ExecutionError.new("User not yet verified", extensions: {code: ErrorCodes.inactive_account}) unless user.confirmed_at.present?
 
       token = AuthService.sign_user(user)
 

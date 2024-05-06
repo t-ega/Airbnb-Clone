@@ -9,5 +9,9 @@ class ErrorCodes
     def invalid_credentials
       'INVALID_CREDENTIALS'
     end
+
+    def inactive_account
+      'INACTIVE_ACCOUNT'
+    end
   end
 end

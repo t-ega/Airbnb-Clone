@@ -8,12 +8,12 @@ module Mutations
       field :error, String, null: true
 
       def resolve(**args)
-        raise GraphQL::ExecutionError, "User not signed in" unless context[:current_user]
+        raise GraphQL::ExecutionError.new("User not signed in", extensions: {code: ErrorCodes.unauthorized}) unless context[:current_user]
 
         token = authorization_token(context[:request])
-        record = AuthService.sign_user(token)
+        record = AuthService.destroy_token_session(token)
 
-        raise GraphQL::ExecutionError, "User not signed in" unless record.present?
+        raise GraphQL::ExecutionError.new('Email or Password is incorrect', extensions: {code: ErrorCodes.invalid_credentials}) unless record.present?
         { status: "Success" }
       end
 

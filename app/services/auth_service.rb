@@ -33,20 +33,24 @@ module AuthService
       User.find(user_id)
     end
 
-    def sign_out_user(claim)
+    def destroy_token_session(claim)
       token = decode_token(claim)
       return unless token
 
       session_id = token[0]["session_id"]
       user_id = token[0]["user_id"]
 
-      current_time = Time.zone.current
+      current_time = Time.zone.now
 
       # Set the logout field on the sessions
-      Session.create!(session_id:session_id, user_id:user_id, logout_time:current_time)
+      session = Session.find_by(session_id:session_id, user_id:user_id)
+      return unless session
+
+      session.update!(logout_time:current_time) if session.logout_time.nil?
     end
 
     def send_reset_instructions(user)
+      return unless user.is_a?(User)
       user.send_reset_password_instructions
     end
 
