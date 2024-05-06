@@ -14,7 +14,7 @@ module Types
     # -------------------
     # Properties
     # -------------------
-    # field :property, mutation: Mutations::Properties::PropertyMutation
+    field :create_property, mutation: Mutations::Properties::PropertyMutation
 
   end
 end

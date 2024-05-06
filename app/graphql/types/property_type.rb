@@ -5,10 +5,12 @@ module Types
     field :id, ID, null: false
     field :name, String
     field :description, String
+    field :headline, String
+    field :city, String
     field :average_rating, Integer
-    field :reviewer, Types::UserType
     field :state, String, null: false
     field :address, String, null: false
+    field :country, String, null: false
     field :price, Float
     field :reviews, [Types::ReviewType]
     field :host, Types::UserType

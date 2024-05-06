@@ -6,6 +6,8 @@ class Property < ApplicationRecord
   validates :country, presence: true
   validates :city, presence: true
   validates :address, presence: true
+  # Some properties might be free
+  validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :host, presence: true
 
   has_many_attached :images, dependent: :destroy

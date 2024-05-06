@@ -75,3 +75,5 @@ gem 'jsonapi-serializer'
 gem "tailwindcss-rails", "~> 2.4"
 
 gem 'faker'
+
+gem 'cloudinary'

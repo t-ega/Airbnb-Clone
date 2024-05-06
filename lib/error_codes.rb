@@ -13,5 +13,9 @@ class ErrorCodes
     def inactive_account
       'INACTIVE_ACCOUNT'
     end
+
+    def unprocessable_entity
+      'UNPROCESSABLE_ENTITY'
+    end
   end
 end
