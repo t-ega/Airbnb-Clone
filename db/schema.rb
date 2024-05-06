@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_04_183035) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_06_214309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_04_183035) do
     t.decimal "average_rating"
     t.bigint "host_id", null: false
     t.decimal "price", default: "0.0", null: false
+    t.string "image_url"
     t.index ["host_id"], name: "index_properties_on_host_id"
   end
 
@@ -92,6 +93,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_04_183035) do
     t.string "confirmation_token"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
+    t.string "avatar_url"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti"
