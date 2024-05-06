@@ -4,8 +4,6 @@ module Mutations
   module Properties
     class PropertyMutation < BaseMutation
 
-
-
     end
   end
 end
