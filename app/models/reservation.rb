@@ -16,7 +16,7 @@ class Reservation < ApplicationRecord
   end
 
   def self.calculate_total(property_id, checkin_date, checkout_date)
-    days = (Date.parse(checkout_date) - Date.parse(checkin_date)).to_i
+    days = (checkout_date - checkin_date).to_i
     property = Property.find(property_id)
     (property.price * days)
   end

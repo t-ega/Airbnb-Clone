@@ -71,7 +71,6 @@ export default class extends Controller {
         const params = {
             checkin_date: this.checkinTarget.value,
             checkout_date: this.checkoutTarget.value,
-            total: this.calculateTotal()
         }
         return new URLSearchParams(params).toString();
     }
