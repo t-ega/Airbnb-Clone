@@ -2,7 +2,6 @@
 
 module Types
   class MutationType < Types::BaseObject
-    # field :property, mutation: Mutations::Properties::PropertyMutation
 
     # ------------------
     # Auth
@@ -12,6 +11,10 @@ module Types
     field :sign_out_mutation, mutation: Mutations::Auth::SignOutMutation
     field :reset_password_mutation, mutation: Mutations::Auth::ResetPasswordMutation
 
+    # -------------------
+    # Properties
+    # -------------------
+    # field :property, mutation: Mutations::Properties::PropertyMutation
 
   end
 end

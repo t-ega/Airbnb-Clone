@@ -9,7 +9,7 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      current_user: AuthService.current_user(authorization_token),
+      current_user: current_user
     }
     result = AirbnbCloneSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: { status: response_status(result.to_h), **result }
@@ -21,6 +21,13 @@ class GraphqlController < ApplicationController
   private
   def authorization_token
     request.headers['Authorization'].to_s.split(' ').last
+  end
+
+
+  def current_user
+    puts "MADE A CALLL"
+    # memoize the user
+    @current_user ||= AuthService.current_user(authorization_token)
   end
 
   def response_status(result)
@@ -55,4 +62,6 @@ class GraphqlController < ApplicationController
 
     render json: { status: "error", errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
   end
+
+
 end

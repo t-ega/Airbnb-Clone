@@ -17,9 +17,11 @@ module AuthService
     end
 
     def current_user(authorization_token)
+      puts "made a call"
       return unless authorization_token
 
-      token = decode_token(token)
+      token = decode_token(authorization_token)
+
       session_id = token[0].fetch("session_id", nil)
       return unless session_id  # Don't process if there is no session id on it.
 
@@ -63,7 +65,7 @@ module AuthService
     def decode_token(token)
       begin
          JWT.decode(token, HMAC_SECRET, true, {algorithm: "HS256"})
-      rescue JWT::DecodeError
+      rescue JWT::DecodeError => e
         nil
       end
     end

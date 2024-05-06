@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Types
+
   class QueryType < Types::BaseObject
     field :node, Types::NodeType, null: true, description: "Fetches an object given its ID." do
       argument :id, ID, required: true, description: "ID of the object."
@@ -21,11 +22,26 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :properties, [Types::PropertyType], null: false
+
+    def properties
+      authenticate_user!
+      puts property(1)
+      Property.all
+
     end
+
+    field :property, Types::PropertyType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def property(id:)
+      authenticate_user!
+
+      # There is already a rescue_from handler written in the schema for
+      # handling invalid id's
+      Property.find(id)
+    end
+
   end
 end

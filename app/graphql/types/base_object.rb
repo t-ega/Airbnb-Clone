@@ -8,12 +8,8 @@ module Types
 
     private
 
-    def current_user
-      context[:current_user]
-    end
-
     def authenticate_user!
-      if current_user.blank?
+      if context[:current_user].blank?
         raise GraphQL::ExecutionError, "Authentication failed, you must provide a valid token!"
       end
     end
