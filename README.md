@@ -65,5 +65,3 @@ Contributions to this project are welcome. Feel free to open issues or submit pu
 - [Abiodun Onisade](): Mentorship and guidance
 - [Airbnb](https://www.airbnb.com): Inspiration for the project idea and design.
 - [Rails Guides](https://guides.rubyonrails.org): Official documentation for Ruby on Rails.
-
-Feel free to customize this README file based on your project's specific requirements and technologies used. Include any additional information, instructions, or guidelines that would be helpful for other developers or contributors.
