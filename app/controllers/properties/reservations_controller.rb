@@ -23,9 +23,6 @@ module Properties
       params.permit(:property_id, :checkin_date,:checkout_date)
     end
 
-    def ensure_user_is_logged_in
-      redirect_to new_user_session_path unless user_signed_in?
-    end
     def format_date_params
 
       begin

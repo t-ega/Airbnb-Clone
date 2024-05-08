@@ -61,10 +61,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_214309) do
     t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
+  create_table "sessions", primary_key: "session_id", id: :string, force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "session_id", null: false
     t.datetime "logout_time"
+    t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
   create_table "tokens", force: :cascade do |t|

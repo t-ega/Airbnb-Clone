@@ -14,9 +14,9 @@ class Property < ApplicationRecord
   belongs_to :host, class_name: "User"
   has_many :reservations, dependent: :destroy
 
+  # Call a service to upload the property image.
   def self.upload_image(image, property_id)
-    uploader = ImageUploaderJob.new
-    uploader.upload_image_and_update_attribute(image, Property, property_id, :image_url)
+    ImageUploaderService.upload_model_image(image: image, model_class: Property, model_id: property_id, attribute_name: :image_url)
   end
 
 end

@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem 'dotenv', groups: [:development, :test]
 
-ruby "3.2.3"
+ruby "3.3.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.2"
