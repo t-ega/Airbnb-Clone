@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   }
 
   resources :home, only: %i[index]
-  resources :properties, only: %i[show new create], module: "properties" do
+  resources :properties, only: %i[show new create index edit update], module: "properties" do
     resources :reservations, only: %i[create, new]
   end
 
