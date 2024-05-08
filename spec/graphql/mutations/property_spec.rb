@@ -17,7 +17,6 @@ RSpec.describe Property, type: :request do
         address: "123 Main Street",
         city: "Dummy City",
         price: 100.45,
-        host_id: host.id,
         state: "Dummy State",
         country: "Dummy Country"
       }
@@ -41,7 +40,6 @@ RSpec.describe Property, type: :request do
         address: "123 Main Street",
         city: "Dummy City",
         price: 100.45,
-        host_id: host.id,
         state: "Dummy State",
         country: "Dummy Country"
       }
@@ -64,7 +62,6 @@ RSpec.describe Property, type: :request do
         address: "123 Main Street",
         city: "Dummy City",
         price: 100.45,
-        host_id: host.id,
         state: "Dummy State",
         country: "Dummy Country"
       }
@@ -88,7 +85,6 @@ RSpec.describe Property, type: :request do
     address = args[:address]
     city = args[:city]
     price = args[:price]
-    host = args[:host_id]
     state = args[:state]
     country = args[:country]
 
@@ -101,7 +97,6 @@ RSpec.describe Property, type: :request do
             address: "#{address}",
             city: "#{city}",
             price: #{price},
-            host: #{host},
             state: "#{state}",
             country: "#{country}"
         ) {

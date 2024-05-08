@@ -21,7 +21,7 @@ module Properties
         Property.upload_image(image, @property.id)
         redirect_to property_path(@property)
       else
-        render "new", status: :unprocessable_entity
+        render :new, status: :unprocessable_entity
       end
     end
 
