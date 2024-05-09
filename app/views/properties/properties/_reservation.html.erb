@@ -57,13 +57,8 @@
             <p data-reservation-component-target="propertyPrice">$<%= property.price %></p>
           </div>
         </div>
-          <button
-            data-submit-url="<%= new_property_reservation_path(@property) %>"
-            data-action="reservation-component#submitReservation"
-            type="submit"
-            class="h-10 border rounded-md w-full bg-red-700 text-white">
-            Book Now
-          </button>
+          
+          <%= call_to_action %>
 
       </div>
     </form>
