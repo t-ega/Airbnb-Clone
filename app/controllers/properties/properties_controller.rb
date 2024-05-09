@@ -1,7 +1,7 @@
 module Properties
   class PropertiesController < ApplicationController
     before_action :ensure_user_is_logged_in, only: %i[new create index edit]
-    before_action :set_property, only: %i[edit update]
+    before_action :set_property, only: %i[edit update destroy]
 
     def show
       @property = Property.includes(:reviews).find(params[:id])
@@ -23,6 +23,12 @@ module Properties
       else
         render :edit, status: :unprocessable_entity
       end
+    end
+
+    def destroy
+      @property.destroy
+      flash[:success] = "The listing item was successfully deleted."
+      redirect_to property_path
     end
 
     def index

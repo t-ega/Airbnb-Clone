@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   }
 
   resources :home, only: %i[index]
-  resources :properties, only: %i[show new create index edit update], module: "properties" do
+  resources :properties, module: "properties" do
     resources :reservations, only: %i[create, new]
   end
 
@@ -26,5 +26,5 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "home#index"
 end

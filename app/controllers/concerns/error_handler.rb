@@ -3,7 +3,7 @@ module ErrorHandler
 
   included do
     rescue_from ActiveRecord::RecordNotFound do
-      render flash[:alert] = "The requested resource could not be found"
+      flash[:alert] = "The requested resource could not be found"
       redirect_to root_path
     end
 

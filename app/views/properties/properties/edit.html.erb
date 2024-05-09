@@ -128,7 +128,7 @@
         </div>
       </div>
       <%= f.submit "Submit", class: "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full bg-primary hover:bg-primary text-white" %>
-      <%= f.submit "Delete", :method => :delete, class: "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full bg-primary hover:bg-primary text-white" %>
+      <%= f.button "Delete",formmethod: :delete, data: { confirm: "Are you sure?" }, class: "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8 w-full bg-primary hover:bg-primary text-white" %>
        <% end %>
     </div>
   </section>
