@@ -3,72 +3,61 @@ require "rails_helper"
 RSpec.describe Property, type: :request do
   describe "delete" do
     let!(:host) { FactoryBot.create(:user) }
-    let!(:token) do
-      user = FactoryBot.create(:user)
-      AuthService.sign_user(user)
-    end
-    let(:property) { FactoryBot.create(:property) }
+    let!(:token) { AuthService.sign_user(host) }
+    let!(:property) { FactoryBot.create(:property, host: host) }
 
     it "should delete a property successfully" do
       expect do
         post "/graphql",
              params: {
-               query: query(**property_params)
+               query: query(id: property.id)
              },
              headers: {
                Authorization: "Bearer #{token}"
              }
-      end.to change { Property.count }.by(1)
+      end.to change { Property.count }.from(1).to(0)
+
+      expect { property.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "should return an error if the user deleting is not a host" do
+      host_2 = FactoryBot.create(:user)
+      token = AuthService.sign_user(host_2)
+
+      expect do
+        post "/graphql",
+             params: {
+               query: query(id: property.id)
+             },
+             headers: {
+               Authorization: "Bearer #{token}"
+             }
+      end.not_to change { Property.count }
 
       data = JSON.parse(response.body, symbolize_names: true)
 
-      expect(data.dig(:data, :createProperty, :property, :name)).to eq(
-        property_params.dig(:name)
+      expect(data.dig(:errors)).to be_an(Array)
+      expect(data.dig(:errors).first.dig(:extensions, :code)).to include(
+        ErrorCodes.forbidden
       )
-      expect(data.dig(:data, :createProperty, :property, :price)).to eq(
-        property_params.dig(:price)
-      )
+
+      property.reload
+
+      expect(property.persisted?).to be_truthy
     end
-  end
 
-  def query(**args)
-    name = args[:name]
-    headline = args[:headline]
-    description = args[:description]
-    address = args[:address]
-    city = args[:city]
-    price = args[:price]
-    state = args[:state]
-    country = args[:country]
+    def query(**args)
+      id = args[:id]
 
-    <<~GQL
+      <<~GQL
       mutation {
-        createProperty(
-            name: "#{name}",
-            headline: "#{headline}",
-            description: "#{description}",
-            address: "#{address}",
-            city: "#{city}",
-            price: #{price},
-            state: "#{state}",
-            country: "#{country}"
+        destroyProperty(
+            id: #{id}
         ) {
-        property{
-          id 
-          name
-          headline
-          description
-          address
-          city
-          price
-          host{
-          id
-          }
-          state
-          country
-        }
+        status
         }
       }
     GQL
+    end
   end
 end
