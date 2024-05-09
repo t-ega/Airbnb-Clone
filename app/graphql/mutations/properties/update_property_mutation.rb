@@ -19,10 +19,17 @@ module Mutations
 
       def resolve(id:, **args)
         authenticate_user!
-
         # Any property updated from the graphql endpoint might need to upload the image
         # to a prodiver like S3 and then return the url.
-        property = Property.find_host_property(id, @current_user)
+        property = Property.find_by_id_and_host_id(id, @current_user)
+        if property.nil?
+          raise GraphQL::ExecutionError.new(
+                  "The requested resource could not be found",
+                  extensions: {
+                    code: ErrorCodes.not_found
+                  }
+                )
+        end
 
         property.update(**args)
 

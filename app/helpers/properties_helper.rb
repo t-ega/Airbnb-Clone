@@ -32,22 +32,24 @@ module PropertiesHelper
 
   def call_to_action
     if @property.host == current_user
-      link_to(
-        "Edit",
-        edit_property_path(@property),
-        class:
-          "h-10 border rounded-md w-full bg-red-700 text-white flex justify-center items-center"
-      )
-    else
-      button_tag(
-        "Book Now",
-        data: {
-          submit_url: new_property_reservation_path(@property),
-          action: "reservation-component#submitReservation"
-        },
-        type: "submit",
-        class: "h-10 border rounded-md w-full bg-red-700 text-white"
+      return(
+        link_to(
+          "Edit",
+          edit_property_path(@property),
+          class:
+            "h-10 border rounded-md w-full bg-red-700 text-white flex justify-center items-center"
+        )
       )
     end
+
+    button_tag(
+      "Book Now",
+      data: {
+        submit_url: new_property_reservation_path(@property),
+        action: "reservation-component#submitReservation"
+      },
+      type: "submit",
+      class: "h-10 border rounded-md w-full bg-red-700 text-white"
+    )
   end
 end

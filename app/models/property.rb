@@ -27,11 +27,4 @@ class Property < ApplicationRecord
       attribute_name: :image_url
     )
   end
-
-  # Using this method would always trigger an ActiveRecordNot found
-  # exception it the specified property with that host does not exists
-  def self.find_host_property(property_id, host)
-    property = Property.find_by!(id: property_id, host: host)
-    property
-  end
 end

@@ -11,24 +11,25 @@ module Properties
       @property = Property.new
     end
 
-    def edit
-    end
-
     def update
       @property.update(property_params.except(:image))
       if @property.save
-        image = property_params.dig(:image)
+        image = property_params[:image]
         Property.upload_image(image, @property.id) if image.present?
-        redirect_to property_path
-      else
-        render :edit, status: :unprocessable_entity
+        return redirect_to property_path
       end
+
+      render :edit, status: :unprocessable_entity
     end
 
     def destroy
-      @property.destroy
-      flash[:success] = "The listing item was successfully deleted."
-      redirect_to property_path
+      if @property.destroy
+        flash[:notice] = "The listing item was successfully deleted."
+        return redirect_to property_path
+      end
+
+      flash[:alert] = "The listing could not be deleted."
+      redirect_to property_path(@property)
     end
 
     def index
@@ -39,17 +40,17 @@ module Properties
     def create
       @property =
         Property.new(property_params.except(:image).merge!(host: current_user))
-      image = property_params.dig(:image)
+      image = property_params[:image]
       if @property.save
         # This passes the image upload to a service that uploads the image and store the
         # url back into the image_url column.
         # There is a small trade off here, if the upload is unsuccessful we are not going to delete
         # the property from the database, the client would have to re-upload
         Property.upload_image(image, @property.id)
-        redirect_to property_path(@property)
-      else
-        render :new, status: :unprocessable_entity
+        return redirect_to property_path(@property)
       end
+
+      render :new, status: :unprocessable_entity
     end
 
     private
@@ -69,7 +70,7 @@ module Properties
     end
 
     def set_property
-      @property = Property.find_host_property(params[:id], current_user)
+      @property = Property.find_by_id_and_host_id(params[:id], current_user)
     end
   end
 end

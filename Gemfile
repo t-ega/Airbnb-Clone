@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'dotenv', groups: [:development, :test]
+gem "dotenv", groups: %i[development test]
 
 ruby "3.3.1"
 
@@ -38,7 +38,7 @@ gem "redis", ">= 4.0.1"
 gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: %i[windows jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -48,9 +48,9 @@ gem "image_processing", "~> 1.2"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
-  gem 'factory_bot_rails'
-  gem 'rspec-rails', '~> 6.1', '>= 6.1.2'
+  gem "debug", platforms: %i[mri windows]
+  gem "factory_bot_rails"
+  gem "rspec-rails", "~> 6.1", ">= 6.1.2"
 end
 
 group :development do
@@ -64,16 +64,17 @@ group :development do
   # gem "spring"
 end
 
-
 gem "graphql", "~> 2.3"
-gem "graphiql-rails", github: "rmosolgo/graphiql-rails",  group: :development
+gem "graphiql-rails", github: "rmosolgo/graphiql-rails", group: :development
 
 gem "devise", "~> 4.9"
-gem 'devise-jwt'
-gem 'jsonapi-serializer'
+gem "devise-jwt"
+gem "jsonapi-serializer"
 
 gem "tailwindcss-rails", "~> 2.4"
 
-gem 'faker'
+gem "faker"
 
-gem 'cloudinary'
+gem "cloudinary"
+
+gem "quidax"
