@@ -4,10 +4,7 @@ RSpec.describe Property, type: :request do
   describe ".update" do
     let!(:host) { FactoryBot.create(:user) }
 
-    let!(:token) do
-      user = FactoryBot.create(:user)
-      AuthService.sign_user(user)
-    end
+    let!(:token) { AuthService.sign_user(host) }
 
     let!(:property) do
       FactoryBot.create(
@@ -60,35 +57,34 @@ RSpec.describe Property, type: :request do
       expect(property.price).to eq(property_params.dig(:price))
     end
 
-    it "should return an error if the property ID is missing in the params" do
+    it "should return an error if the property ID is invalid " do
       property_params = {
+        id: 0,
         name: "Dummy Listing",
         city: "Dummy City",
         price: 100.45
       }
 
-      expect do
-        post "/graphql",
-             params: {
-               query: query(**property_params)
-             },
-             headers: {
-               Authorization: "Bearer #{token}"
-             }
-      end.not_to change { Property.count }
+      post "/graphql",
+           params: {
+             query: query(**property_params)
+           },
+           headers: {
+             Authorization: "Bearer #{token}"
+           }
 
       data = JSON.parse(response.body, symbolize_names: true)
 
       expect(data.dig(:errors)).to be_an(Array)
       expect(data.dig(:errors).first.dig(:extensions, :code)).to include(
-        ErrorCodes.unprocessable_entity
+        ErrorCodes.not_found
       )
 
       # Reload the property from the database
       property.reload
-      expect(property.name).to not_eq(property_params.dig(:name))
-      expect(property.city).to not_eq(property_params.dig(:city))
-      expect(property.price).to not_eq(property_params.dig(:price))
+      expect(property.name).not_to eq(property_params.dig(:name))
+      expect(property.city).not_to eq(property_params.dig(:city))
+      expect(property.price).not_to eq(property_params.dig(:price))
     end
 
     it "should return an error if the user updating is not a host" do
@@ -96,6 +92,7 @@ RSpec.describe Property, type: :request do
       token = AuthService.sign_user(host_2)
 
       property_params = {
+        id: property.id,
         name: "Dummy Listing",
         city: "Dummy City",
         price: 100.45
@@ -120,9 +117,9 @@ RSpec.describe Property, type: :request do
 
       # Reload the property from the database
       property.reload
-      expect(property.name).to not_eq(property_params.dig(:name))
-      expect(property.city).to not_eq(property_params.dig(:city))
-      expect(property.price).to not_eq(property_params.dig(:price))
+      expect(property.name).not_to eq(property_params.dig(:name))
+      expect(property.city).not_to eq(property_params.dig(:city))
+      expect(property.price).not_to eq(property_params.dig(:price))
     end
   end
 

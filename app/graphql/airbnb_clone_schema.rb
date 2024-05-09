@@ -44,7 +44,11 @@ class AirbnbCloneSchema < GraphQL::Schema
   # Error Handlers
   # ---------------
   rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
-    raise GraphQL::ExecutionError, "#{field.type.unwrap.graphql_name} not found"
+    raise GraphQL::ExecutionError.new(
+            "The requested resource could not be found",
+            extensions: {
+              code: ErrorCodes.not_found
+            }
+          )
   end
-
 end

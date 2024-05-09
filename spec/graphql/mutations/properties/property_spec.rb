@@ -3,10 +3,7 @@ require "rails_helper"
 RSpec.describe Property, type: :request do
   describe ".resolve" do
     let!(:host) { FactoryBot.create(:user) }
-    let!(:token) do
-      user = FactoryBot.create(:user)
-      AuthService.sign_user(user)
-    end
+    let!(:token) { AuthService.sign_user(host) }
 
     it "should create a property successfully" do
       property_params = {
