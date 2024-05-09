@@ -12,14 +12,14 @@ module Mutations
 
         # Any property updated from the graphql endpoint might need to upload the image
         # to a prodiver like S3 and then return the url.
-        property = Property.find(id)
+        property = Property.find_host_property(id, @current_user)
 
         # Only host is allowed to update a property
         unless property.host == @current_user
           raise GraphQL::ExecutionError.new(
-                  "Not allowed",
+                  "The requested resource could not be found",
                   extensions: {
-                    code: ErrorCodes.forbidden
+                    code: ErrorCodes.not_found
                   }
                 )
         end

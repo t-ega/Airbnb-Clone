@@ -112,7 +112,7 @@ RSpec.describe Property, type: :request do
 
       expect(data.dig(:errors)).to be_an(Array)
       expect(data.dig(:errors).first.dig(:extensions, :code)).to include(
-        ErrorCodes.forbidden
+        ErrorCodes.not_found
       )
 
       # Reload the property from the database

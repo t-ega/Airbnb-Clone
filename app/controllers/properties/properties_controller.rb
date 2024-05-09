@@ -37,7 +37,8 @@ module Properties
     end
 
     def create
-      @property = Property.new(property_params.except(:image).merge!(host: current_user))
+      @property =
+        Property.new(property_params.except(:image).merge!(host: current_user))
       image = property_params.dig(:image)
       if @property.save
         # This passes the image upload to a service that uploads the image and store the
@@ -54,12 +55,21 @@ module Properties
     private
 
     def property_params
-      params.require(:property).permit(:name, :description, :price, :headline, :city, :state, :image, :country, :address)
+      params.require(:property).permit(
+        :name,
+        :description,
+        :price,
+        :headline,
+        :city,
+        :state,
+        :image,
+        :country,
+        :address
+      )
     end
 
     def set_property
-      @property = Property.find(params[:id])
+      @property = Property.find_host_property(params[:id], current_user)
     end
-
   end
 end
