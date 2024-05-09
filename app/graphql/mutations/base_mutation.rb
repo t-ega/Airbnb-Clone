@@ -11,7 +11,7 @@ module Mutations
         raise GraphQL::ExecutionError.new("Authentication failed, you must provide a valid token!", extensions: { code: ErrorCodes.unauthorized })
       end
       @current_user = context[:current_user]
-    end
+    end  
 
   end
 end

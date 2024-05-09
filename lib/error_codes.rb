@@ -17,5 +17,13 @@ class ErrorCodes
     def unprocessable_entity
       'UNPROCESSABLE_ENTITY'
     end
+
+    def not_found
+      'NOT_FOUND'
+    end
+
+    def forbidden
+      'FORBIDDEN'
+    end
   end
 end

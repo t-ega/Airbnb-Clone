@@ -12,6 +12,7 @@ module Types
     field :address, String, null: false
     field :country, String, null: false
     field :price, Float
+    field :image_url, String
     field :reviews, [Types::ReviewType]
     field :host, Types::UserType
     field :created_at,  GraphQL::Types::ISO8601DateTime

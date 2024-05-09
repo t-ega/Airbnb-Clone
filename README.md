@@ -17,27 +17,32 @@ This project is an Airbnb clone built with Ruby on Rails, using a monolithic arc
 - PostgreSQL: A relational database management system for storing application data.
 - Active Storage: A built-in library for managing file uploads in Rails.
 - Front-end technologies: HTML, Tailwind CSS, and Hotwire for building the user interface.
+- Robocop: For linting and code formatting.
 
 Please visit the ROADMAP.md section to see the proposed plan for this project.
 
 ## Installation
 
 1. Clone the repository:
+
    ```shell
    git clone https://github.com/t-ega/Airbnb-Clone.git
    ```
 
 2. Install dependencies using Bundler:
+
    ```shell
    bundle install
    ```
 
 3. Set up the database by running the migrations:
+
    ```shell
    rails db:migrate db:seed
    ```
 
 4. Start the Rails server:
+
    ```shell
    bin/dev
    ```
@@ -47,7 +52,8 @@ Please visit the ROADMAP.md section to see the proposed plan for this project.
 ## Configuration
 
 - Database configuration: Update the `config/database.yml` file with your PostgreSQL database credentials.
-- Environment variables: 
+- Environment variables:
+
 ## Usage
 
 - Visit the homepage and sign up for a new account.
