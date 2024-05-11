@@ -1,8 +1,7 @@
 class ImageUploaderService
-  
-    # I know it would have been better of to let
-    # active storage handle all the image uploads
-    # I just want to queue them up inside jobs
+  # I know it would have been better of to let
+  # active storage handle all the image uploads
+  # I just want to queue them up inside jobs
 
   def self.upload_model_image(image:, model_class:, model_id:, attribute_name:)
     image_url = upload(image)
@@ -13,16 +12,19 @@ class ImageUploaderService
     Rails.logger.error("Error uploading image: #{e.message}")
   end
 
-
   private
 
   def self.upload(image)
-    response = Cloudinary::Uploader.upload(image, options = {
-      folder: 'airbnb-clone/items',
-      width: 1000,
-      height: 500,
-      crop: 'limit',
-    })
+    response =
+      Cloudinary::Uploader.upload(
+        image,
+        options = {
+          folder: "airbnb-clone/items",
+          width: 1000,
+          height: 500,
+          crop: "limit"
+        }
+      )
     response["url"]
   end
 end

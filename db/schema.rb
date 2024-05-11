@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_06_214309) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_11_053303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "host_payment_addresses", id: false, force: :cascade do |t|
+    t.string "address"
+    t.integer "host"
+    t.string "currency"
+    t.string "network"
+    t.string "address_id"
+    t.string "sub_account_id"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_host_payment_addresses_on_email", unique: true
+  end
 
   create_table "jwt_denylists", force: :cascade do |t|
     t.string "jti", null: false
@@ -36,6 +49,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_214309) do
     t.decimal "price", default: "0.0", null: false
     t.string "image_url"
     t.index ["host_id"], name: "index_properties_on_host_id"
+  end
+
+  create_table "quidax_sub_accounts", id: false, force: :cascade do |t|
+    t.string "email"
+    t.string "id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["email"], name: "index_quidax_sub_accounts_on_email", unique: true
+    t.index ["user_id"], name: "index_quidax_sub_accounts_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -101,6 +124,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_06_214309) do
   end
 
   add_foreign_key "properties", "users", column: "host_id"
+  add_foreign_key "quidax_sub_accounts", "users"
   add_foreign_key "reservations", "properties"
   add_foreign_key "reservations", "users", column: "guest_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
