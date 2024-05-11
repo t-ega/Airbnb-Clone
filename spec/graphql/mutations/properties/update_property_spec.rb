@@ -132,10 +132,11 @@ RSpec.describe Property, type: :request do
     <<~GQL
           mutation {
             updateProperty(
-                id: #{id},
+              input: {id: #{id},
                 name: "#{name}",
                 city: "#{city}",
                 price: #{price},
+  }
             ) {
             property{
               name

@@ -52,7 +52,7 @@ RSpec.describe Property, type: :request do
       <<~GQL
       mutation {
         destroyProperty(
-            id: #{id}
+            input: { id: #{id} }
         ) {
         status
         }

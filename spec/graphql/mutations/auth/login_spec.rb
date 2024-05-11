@@ -86,8 +86,9 @@ module Mutations
       <<~GQL
         mutation {
           signInMutation(
-            email: "#{email}",
+            input: { email: "#{email}",
             password: "#{password}",
+    }
           ) {
            token
           }

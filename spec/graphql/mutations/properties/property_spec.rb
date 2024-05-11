@@ -114,6 +114,7 @@ RSpec.describe Property, type: :request do
     <<~GQL
       mutation {
         createProperty(
+          input: {
             name: "#{name}",
             headline: "#{headline}",
             description: "#{description}",
@@ -122,6 +123,7 @@ RSpec.describe Property, type: :request do
             price: #{price},
             state: "#{state}",
             country: "#{country}"
+  }
         ) {
         property{
           id 
