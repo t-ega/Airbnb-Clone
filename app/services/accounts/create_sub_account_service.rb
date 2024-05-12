@@ -1,18 +1,19 @@
 module Accounts
   class CreateSubAccountService < ApplicationService
+    include QuidaxInitializer
+
     def initialize(host_id)
-      secret_key = ENV["QUIDAX_SECRET_KEY"]
-      @quidax_object = Quidax.new(secret_key)
-      @quidax_user = QuidaxUser.new(@quidax_object)
+      @quidax_user = QuidaxUser.new(self.class.quidax_object)
       @host_id = host_id
     end
 
+    # Create a sub account on quidax for that particular host.
+    # If a sub account already exits then return it
     def call
-      host = User.find(@host_id)
-      return if host.nil?
-
       sub_account = QuidaxSubAccount.find_by_user_id(@host_id)
       return sub_account if sub_account
+
+      host = User.find(@host_id)
 
       begin
         res =
@@ -36,7 +37,11 @@ module Accounts
       # emails can be changed in our system, but the emails in a sub account cannot be changed, we need
       # to keep track of the email that was used when creating the sub account.
       account =
-        SubAccount.new(id: data[:id], email: data[:email], user_id: host.id)
+        QuidaxSubAccount.new(
+          id: data[:id],
+          email: data[:email],
+          user_id: host.id
+        )
       return account if account.save
     end
   end
