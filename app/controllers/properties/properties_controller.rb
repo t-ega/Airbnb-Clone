@@ -41,7 +41,7 @@ module Properties
       @property =
         Property.new(property_params.except(:image).merge!(host: current_user))
       image = property_params[:image]
-      if @property.valid?
+      unless @property.valid?
         # This passes the image upload to a service that uploads the image and store the
         # url back into the image_url column.
         # There is a small trade off here, if the upload is unsuccessful we are not going to delete
@@ -49,7 +49,7 @@ module Properties
         Property.upload_image(image, @property.id)
 
         # Create a sub account on quidax if the user doesnt have an exiting account
-        Accounts::CreateSubAccountService.call(current_user.id)
+        FetchCryptoPrice.call("btcngn")
         return redirect_to property_path(@property)
       end
 

@@ -34,14 +34,7 @@ module Accounts
         return
       end
 
-      # emails can be changed in our system, but the emails in a sub account cannot be changed, we need
-      # to keep track of the email that was used when creating the sub account.
-      account =
-        QuidaxSubAccount.new(
-          id: data[:id],
-          email: data[:email],
-          user_id: host.id
-        )
+      account = QuidaxSubAccount.new(id: data[:id], user_id: host.id)
       return account if account.save
     end
   end
