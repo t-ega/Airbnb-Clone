@@ -1,4 +1,5 @@
 class Reservation < ApplicationRecord
+  SERVICE_FEE = 0.2.freeze # would be added to the total_price
   validates :guest_id, presence: true
   validates :property_id, presence: true
   validates :total, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
@@ -10,15 +11,11 @@ class Reservation < ApplicationRecord
   belongs_to :guest, class_name: "User"
   belongs_to :property
 
-  def self.book_reservation(reservation_details)
-    total = calculate_total(reservation_details[:property_id], reservation_details[:checkin_date], reservation_details[:checkout_date])
-    Reservation.create({total:total, **reservation_details})
-  end
-
   def self.calculate_total(property_id, checkin_date, checkout_date)
     days = (checkout_date - checkin_date).to_i
     property = Property.find(property_id)
-    (property.price * days)
+    gross = (property.price * days)
+     (gross + (Reservation::SERVICE_FEE * gross))
   end
 
 

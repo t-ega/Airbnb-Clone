@@ -49,8 +49,8 @@ module Properties
         Property.upload_image(image, @property.id)
 
         # Create a sub account on quidax if the user doesnt have an exiting account
-        FetchCryptoPrice.call("btcngn")
-        return redirect_to property_path(@property)
+        CreateSubAccountJob.perform_later(current_user.id)
+        return redirect_to properties_path
       end
 
       render :new, status: :unprocessable_entity

@@ -27,4 +27,10 @@ class Property < ApplicationRecord
       attribute_name: :image_url
     )
   end
+
+  def wallet_address
+    sub_account = HostPaymentAddress.first
+    return if sub_account.nil?
+    [sub_account[:address], sub_account[:currency]]
+  end
 end

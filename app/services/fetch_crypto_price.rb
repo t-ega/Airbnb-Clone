@@ -10,7 +10,7 @@ class FetchCryptoPrice < ApplicationService
       ticker =
         QuidaxMarkets.get_ticker(
           q_object: self.class.quidax_object,
-          market: @market
+          market: "#{@market}usdt"
         )
     rescue QuidaxServerError => e
       Rails.logger.error(e)
@@ -19,6 +19,6 @@ class FetchCryptoPrice < ApplicationService
 
     result = ticker.with_indifferent_access
     data = result[:data]
-    data.dig(:ticker, :low)
+    data.dig(:ticker, :low).to_f
   end
 end

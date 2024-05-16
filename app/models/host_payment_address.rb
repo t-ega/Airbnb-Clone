@@ -1,2 +1,2 @@
-class HostPaymentAddress
+class HostPaymentAddress < ActiveRecord::Base
 end

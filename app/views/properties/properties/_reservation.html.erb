@@ -26,7 +26,7 @@
           >
             <span class="font-semibold uppercase text-[0.65rem]">Check in</span>
             <label>
-              <input class="font-normal" value="<%= Date.current.strftime("%m/%d/%y") %>" data-reservation-component-target="checkin" />
+              <input class="font-normal" value="<%= Date.current.strftime("%d/%m/%Y") %>" data-reservation-component-target="checkin" />
             </label>
           </button>
           <button
@@ -39,7 +39,7 @@
           >
             <span class="font-semibold uppercase text-[0.65rem]">Check out</span>
             <label>
-              <input value="<%= (1.day.from_now).strftime("%m/%d/%y") %>" class="font-normal" data-reservation-component-target="checkout" />
+              <input value="<%= (1.day.from_now).strftime("%d/%m/%Y") %>" class="font-normal" data-reservation-component-target="checkout" />
             </label>
           </button>
         </div>

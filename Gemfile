@@ -78,3 +78,7 @@ gem "faker"
 gem "cloudinary"
 
 gem "quidax"
+
+gem "rqrcode", "~> 2.0"
+
+gem 'toastr-rails'

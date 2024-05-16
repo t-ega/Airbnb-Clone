@@ -11,7 +11,7 @@ export default class extends Controller {
         monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         today: 'Today',
         clear: 'Clear',
-        dateFormat: 'MM/dd/yyyy',
+        dateFormat: 'dd/MM/yyyy',
         timeFormat: 'hh:mm aa',
         firstDay: 0
     };
