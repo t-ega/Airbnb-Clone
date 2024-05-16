@@ -3,22 +3,29 @@ import consumer from "channels/consumer"
 
 // Connects to data-controller="payment-status"
 export default class extends Controller {
+  static targets = ["currentStatus"]
+
   connect() {
-    console.log("Heyy")
-    // this.sub = this.createActionCableChannel()
-    // console.log(this.sub)
+    this.status_tag = this.currentStatusTarget;
+    this.sub = this.createActionCableChannel()
   }
 
   createActionCableChannel() {
-    return consumer.subscription.create("payment_status_channel", {
-      connected() {
-        console.log("Yayy");
+    return consumer.subscriptions.create({ channel: "PaymentStatusChannel", wallet_address: "TKipGdUmft8UsHQsmLi8eaAX63RxxQt3cN" }, {
+      connected: () => {
       },
 
-      received(data) {
+      disconnected() {
+        // Called when the subscription has been terminated by the server
+      },
+
+      received: (data) => {
+        // Called when there's incoming data on the websocket for this channel
+        console.log(`Just received data: ${data}`)
         console.log(data)
+        this.status_tag.textContent = data.status
       }
-    })
+    });
 
   }
 }

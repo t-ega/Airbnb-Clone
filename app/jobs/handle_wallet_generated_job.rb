@@ -1,5 +1,5 @@
 class HandleWalletGeneratedJob < ApplicationJob
   def perform(data)
-    HandleWalletGeneratedService.call(data)
+    Webhooks::HandleWalletGeneratedService.call(data)
   end
 end
