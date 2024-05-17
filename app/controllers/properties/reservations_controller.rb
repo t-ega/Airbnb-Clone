@@ -69,6 +69,10 @@ module Properties
       @property = Property.find(params[:property_id])
       @property_name = @property.name
       @wallet_address, @currency = @property.wallet_address
+      if @wallet_address.nil?
+        flash[:alert] = "Generating wallet address. Please wait"
+        redirect_to property_path(@property)
+      end
     end
 
     def set_reservation_data

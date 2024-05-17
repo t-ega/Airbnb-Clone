@@ -29,8 +29,13 @@ class Property < ApplicationRecord
   end
 
   def wallet_address
-    sub_account = HostPaymentAddress.first
-    return if sub_account.nil?
+    sub_account = HostPaymentAddress.find_by_host(host)
+
+    if sub_account.nil?
+      CreatePaymentAddressJob.perform_later(host.id)
+      return
+    end
+
     [sub_account[:address], sub_account[:currency]]
   end
 end

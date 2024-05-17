@@ -16,6 +16,7 @@ module Properties
       if @property.save
         image = property_params[:image]
         Property.upload_image(image, @property.id) if image.present?
+        CreateSubAccountJob.perform_later(current_user.id)
         return redirect_to property_path
       end
 
@@ -51,8 +52,8 @@ module Properties
         Property.upload_image(image, @property.id)
 
         # Create a sub account on quidax if the user doesnt have an exiting account
-        CreatePaymentAddressJob.perform_later(current_user.id)
-        return redirect_to property_paath(@property)
+        CreateSubAccountJob.perform_later(current_user.id)
+        return redirect_to property_path(@property)
       end
 
       render :new, status: :unprocessable_entity

@@ -10,7 +10,7 @@ class CreateSubAccountService < ApplicationService
   # If a sub account already exits then return it
   def call
     sub_account = QuidaxSubAccount.find_by_user_id(@host_id)
-    return sub_account if sub_account
+    return sub_account if sub_account&.account_id.present?
 
     host = User.find(@host_id)
 
@@ -32,7 +32,6 @@ class CreateSubAccountService < ApplicationService
     end
 
     data = res.with_indifferent_access
-
-    QuidaxSubAccount.create!(id: data[:id], user_id: host.id)
+    QuidaxSubAccount.create!(account_id: data[:id], user_id: host.id)
   end
 end
