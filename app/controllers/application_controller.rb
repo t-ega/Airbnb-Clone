@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_session_path unless user_signed_in?
   end
 
-  rescue_from ActiveRecord::RecordNotFound do
+  rescue_from ActiveRecord::RecordNotFound do |e|
+    puts e.inspect
     flash[:alert] = "The requested resource could not be found"
     redirect_to root_path
   end

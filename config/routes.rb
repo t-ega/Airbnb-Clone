@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   resources :home, only: %i[index]
   resources :properties, module: "properties" do
-    resources :reservations, only: %i[create, new]
+    resources :reservations, only: %i[create new show]
   end
 
   if Rails.env.development?

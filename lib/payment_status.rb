@@ -1,4 +1,6 @@
-class PaymentStatus 
-    PROCESSING="processing"
-    COMPLETED="completed"
+class PaymentStatus
+  INITIATED = "initiated"
+  PROCESSING = "processing"
+  COMPLETED = "completed"
+  FAILED = "failed"
 end

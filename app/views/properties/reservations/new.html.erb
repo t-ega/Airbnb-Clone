@@ -17,7 +17,7 @@
         </div>
         <div class="grid gap-2">
           <div class="text-gray-500 dark:text-gray-400">Dates</div>
-          <div class="font-medium"><%= @formatted_checkin_date %> - <%= @formatted_checkout_date %></div>
+          <div class="font-medium"><%= format_checkin_date %> - <%= format_checkout_date %></div>
         </div>
         <div class="grid gap-2">
           <div class="text-gray-500 dark:text-gray-400">Guests</div>
@@ -52,23 +52,27 @@
     </div>
     <div class="grid gap-2">
       <div class="text-gray-500 dark:text-gray-400">Amount to Send</div>
-      <div class="font-medium text-2xl whitespace-nowrap"><%= format_estimated_price %> <%= @currency.upcase %></div>
+      <div class="font-medium text-2xl whitespace-nowrap"><%= format_estimated_price %> <%= format_currency %></div>
     </div>
     <div class="grid gap-2">
       <div class="text-gray-500 dark:text-gray-400">Crypto Network</div>
-      <div class="font-medium whitespace-nowrap"><%= @currency.upcase %></div>
+      <div class="font-medium whitespace-nowrap"><%= format_currency %></div>
     </div>
     <div class="flex items-center justify-center">
       <div class="bg-white dark:bg-gray-400 rounded-lg p-6 shadow-lg">
-        <%= image_tag(@qr_code.to_data_url) %>
+        <%= image_tag(build_qr_code.to_data_url) %>
       </div>
     </div>
     <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
-      Scan the QR code with your <%= @currency.capitalize %> wallet to make a deposit of <%= format_estimated_price %> <%= @currency.upcase %>.
+      Scan the QR code with your <%= @currency.capitalize %> wallet to make a deposit of <%= format_estimated_price %> <%= format_currency %>.
     </div>
-    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 w-full">
-      I have paid
-    </button>
+     <%= button_to(
+      "I have paid",
+      property_reservations_path,
+      params: {checkin_date: @checkin_date, wallet_address: @wallet_address, checkout_date: @checkout_date, estimated_crypto_amount: format_estimated_price, property_id: @property_id },
+      class: "h-10 border rounded-md w-full bg-red-700 text-white"
+    ) %>
+   
   </div>
 </div>
   </div>

@@ -6,10 +6,14 @@ module Webhooks
 
     def call
       reservation =
-        Reservation.find_by_wallet_address(@data[:payment_address][:address])
+        Reservation.where(
+          "wallet_address= ? AND ? >= estimated_crypto_amount",
+          @data[:payment_address][:address],
+          @data[:amount]
+        ).take
       return if reservation.nil?
 
-      reservation.update!(status: PaymentStatus::PROCESSING)
+      reservation.update!(payment_status: PaymentStatus::PROCESSING)
 
       ActionCable.server.broadcast "payment_status_#{reservation.wallet_address}_channel",
                                    { status: "Processing" }

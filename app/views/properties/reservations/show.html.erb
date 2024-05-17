@@ -9,7 +9,7 @@
         </label>
         <div class="flex items-center">
           <div class="flex-1">
-            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" type="text" id="wallet-address" value=<%= @wallet_address %> readonly />
+            <input data-payment-status-target="walletAddress" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" type="text" id="wallet-address" value=<%= @wallet_address %> readonly />
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
       </div>
       <div class="grid gap-2">
         <div class="text-gray-500 dark:text-gray-400">Current Status</div>
-        <div class="font-medium text-2xl whitespace-nowrap" data-payment-status-target="currentStatus">Initiated</div>
+        <div class="font-medium text-2xl whitespace-nowrap" data-payment-status-target="currentStatus"><%= @reservation.payment_status %></div>
       </div>
       <div class="grid gap-2">
         <div class="text-gray-500 dark:text-gray-400">Crypto Network</div>
@@ -27,7 +27,7 @@
       </div>
       <div class="flex items-center justify-center">
         <div class="bg-white dark:bg-gray-400 rounded-lg p-6 shadow-lg">
-          <%= image_tag(@qr_code.to_data_url) %>
+          <%= image_tag(build_qr_code.to_data_url) %>
         </div>
       </div>
       <div class="text-sm text-gray-500 dark:text-gray-400 text-center">

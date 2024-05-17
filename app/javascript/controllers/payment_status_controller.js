@@ -3,15 +3,16 @@ import consumer from "channels/consumer"
 
 // Connects to data-controller="payment-status"
 export default class extends Controller {
-  static targets = ["currentStatus"]
+  static targets = ["currentStatus", "walletAddress"]
 
   connect() {
     this.status_tag = this.currentStatusTarget;
+    this.wallet_address = this.walletAddressTarget.value
     this.sub = this.createActionCableChannel()
   }
 
   createActionCableChannel() {
-    return consumer.subscriptions.create({ channel: "PaymentStatusChannel", wallet_address: "TKipGdUmft8UsHQsmLi8eaAX63RxxQt3cN" }, {
+    return consumer.subscriptions.create({ channel: "PaymentStatusChannel", wallet_address: this.wallet_address }, {
       connected: () => {
       },
 

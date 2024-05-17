@@ -1,33 +1,45 @@
 module Properties
   class ReservationsController < ApplicationController
     before_action :ensure_user_is_logged_in
-    before_action :set_property_data, only: %i[new]
-    before_action :format_date_params, only: %i[new]
+    before_action :set_property_data, only: %i[new create]
+    before_action :set_reservation_data, only: %i[show]
+    before_action :format_date_params, only: %i[new create]
 
     def new
-      @property_name = @property.name
-      @total =
-        Reservation.calculate_total(@property.id, @checkin_date, @checkout_date)
-        @wallet_address, @currency = @property.wallet_address
-        @qr_code = RQRCode::QRCode.new(@wallet_address).as_png
+      reservation = validate_reservation
+
+      if reservation.valid?
         # current_price = FetchCryptoPrice.call(@currency)
         @estimated_price = @total / 0.10541
-        render :processing
-    end
+        return render :new
+      end
 
-    def processing
+      flash[:alert] = reservation.errors
+      redirect_to property_path(@property)
     end
 
     def create
-      reservation = CreateReservationService.call(*reservation_params)
-      if reservation.errors
-        render :new
-        return
+      # We could also lock the reservation while the guest pays
+      # but that is out of the scope
+      reservation = validate_reservation
+
+      if reservation.save
+        flash[
+          :success
+        ] = "Reservation successfully booked. Remember \"payment\" confirms reservation"
+        return redirect_to property_reservation_path(@property, reservation)
       end
-      flash[
-        :success
-      ] = "Reservation successfully booked. Remember \"payment\" confirms reservation"
-      redirect :property_path
+
+      flash[:alert] = reservation.errors
+      redirect_to property_path(@property)
+    end
+
+    def show
+      @estimated_price = @reservation.estimated_crypto_amount
+      @total = @reservation.total
+      @wallet_address, @currency = @reservation.property.wallet_address
+      # current_price = FetchCryptoPrice.call(@currency)
+      @estimated_price = @reservation.estimated_crypto_amount
     end
 
     private
@@ -37,7 +49,9 @@ module Properties
         :property_id,
         :checkin_date,
         :checkout_date,
-        :wallet_address
+        :wallet_address,
+        :estimated_crypto_amount,
+        :authenticity_token
       )
     end
 
@@ -45,9 +59,7 @@ module Properties
       begin
         @checkin_date = Date.parse(reservation_params[:checkin_date])
         @checkout_date = Date.parse(reservation_params[:checkout_date])
-        @formatted_checkin_date = @checkin_date.strftime("%B %e, %Y")
-        @formatted_checkout_date = @checkout_date.strftime("%B %e, %Y")
-      rescue Date::Error 
+      rescue Date::Error
         flash[:alert] = "Invalid request"
         redirect_to home_index_path
       end
@@ -55,6 +67,34 @@ module Properties
 
     def set_property_data
       @property = Property.find(params[:property_id])
+      @property_name = @property.name
+      @wallet_address, @currency = @property.wallet_address
+    end
+
+    def set_reservation_data
+      @reservation = Reservation.includes(:property).find(params[:id])
+      puts @reservation.payment_status.inspect
+      if (
+           @reservation.guest_id != current_user.id &&
+             @reservation.property.host.id != current_user.id
+         )
+        raise ActiveRecord::RecordNotFound
+      end
+    end
+
+    def validate_reservation
+      @total =
+        Reservation.calculate_total(@property.id, @checkin_date, @checkout_date)
+      Reservation.new(
+        property_id: reservation_params[:property_id],
+        checkin_date: @checkin_date,
+        checkout_date: @checkout_date,
+        total: @total,
+        payment_status: PaymentStatus::INITIATED, # TODO: Give a default payment status
+        wallet_address: reservation_params[:wallet_address],
+        estimated_crypto_amount: reservation_params[:estimated_crypto_amount],
+        guest_id: current_user.id
+      )
     end
   end
 end

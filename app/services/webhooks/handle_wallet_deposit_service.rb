@@ -17,16 +17,25 @@ module Webhooks
       host = HostPaymentAddress.find_by_address(payment_address)
       return if host.nil?
 
+      reservation =
+        Reservation.where(
+          "wallet_address= ? AND ? >= estimated_crypto_amount",
+          payment_address,
+          @data[:amount]
+        ).last # The most recent reservation
+      return if reservation.nil?
+
       begin
         res =
           QuidaxDeposits.get_a_deposit(
-            q_object: self.class.q_object,
+            q_object: self.class.quidax_object,
             user_id: host.sub_account_id,
             deposit_id: deposit_id
           )
       rescue QuidaxServerError => e
         Rails.logger.error(e.response.body)
-        ActionCable.server.broadcast "payment_status_#{reservation.wallet_address}_channel",
+        reservation.update!(payment_status: PaymentStatus::FAILED)
+        ActionCable.server.broadcast "payment_status_#{payment_address}_channel",
                                      { status: "Failed" }
         return
       end
@@ -36,12 +45,8 @@ module Webhooks
       return if confrimation_status != "confirmed"
 
       # TODO: Send email to host about payment
-      reservation = Reservation.find_by_wallet_address(payment_address)
-      return if reservation.nil?
-
-      reservation.update!(status: PaymentStatus::Confirmed)
-
-      ActionCable.server.broadcast "payment_status_#{reservation.wallet_address}_channel",
+      reservation.update!(payment_status: PaymentStatus::Confirmed)
+      ActionCable.server.broadcast "payment_status_#{payment_address}_channel",
                                    { status: "Confirmed" }
     end
   end
