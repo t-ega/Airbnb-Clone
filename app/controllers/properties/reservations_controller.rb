@@ -7,7 +7,6 @@ module Properties
 
     def new
       reservation = validate_reservation
-
       if reservation.valid?
         # current_price = FetchCryptoPrice.call(@currency)
         @estimated_price = @total / 0.10541
@@ -69,6 +68,7 @@ module Properties
       @property = Property.find(params[:property_id])
       @property_name = @property.name
       @wallet_address, @currency = @property.wallet_address
+
       if @wallet_address.nil?
         flash[:alert] = "Generating wallet address. Please wait"
         redirect_to property_path(@property)
@@ -77,7 +77,6 @@ module Properties
 
     def set_reservation_data
       @reservation = Reservation.includes(:property).find(params[:id])
-      puts @reservation.payment_status.inspect
       if (
            @reservation.guest_id != current_user.id &&
              @reservation.property.host.id != current_user.id

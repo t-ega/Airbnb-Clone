@@ -18,7 +18,7 @@ class CreateSubAccountService < ApplicationService
       res =
         @quidax_user.create_sub_account(
           body: {
-            email: Faker::Internet.email,
+            email: host.email,
             first_name: host.first_name,
             last_name: host.last_name,
             phone_number: ""

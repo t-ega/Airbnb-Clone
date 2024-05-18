@@ -16,7 +16,6 @@ module Properties
       if @property.save
         image = property_params[:image]
         Property.upload_image(image, @property.id) if image.present?
-        CreateSubAccountJob.perform_later(current_user.id)
         return redirect_to property_path
       end
 

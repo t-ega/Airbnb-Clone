@@ -29,13 +29,18 @@ class Property < ApplicationRecord
   end
 
   def wallet_address
-    sub_account = HostPaymentAddress.find_by_host(host)
+    host_payment_address = HostPaymentAddress.find_by(host: host)
 
-    if sub_account.nil?
+    if host_payment_address.nil? || host_payment_address.address.blank?
       CreatePaymentAddressJob.perform_later(host.id)
       return
     end
 
-    [sub_account[:address], sub_account[:currency]]
+    [host_payment_address[:address], host_payment_address[:currency]]
+  end
+
+  private
+
+  def fetch_wallet_address
   end
 end
