@@ -4,7 +4,7 @@ module ReservationsHelper
   end
 
   def build_qr_code
-    RQRCode::QRCode.new(@wallet_address).as_png
+    RQRCode::QRCode.new(@wallet_address.address).as_png
   end
 
   def format_checkin_date
@@ -16,6 +16,14 @@ module ReservationsHelper
   end
 
   def format_currency
-    @currency.upcase
+    @wallet_address.currency.upcase
+  end
+
+  def address
+    @wallet_address.address
+  end
+
+  def format_network
+    @wallet_address.network.upcase
   end
 end

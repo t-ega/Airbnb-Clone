@@ -36,7 +36,7 @@ class Property < ApplicationRecord
       return
     end
 
-    [host_payment_address[:address], host_payment_address[:currency]]
+    host_payment_address
   end
 
   private

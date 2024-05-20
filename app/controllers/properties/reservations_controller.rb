@@ -8,8 +8,8 @@ module Properties
     def new
       reservation = validate_reservation
       if reservation.valid?
-        # current_price = FetchCryptoPrice.call(@currency)
-        @estimated_price = @total / 0.10541
+        current_price = FetchCryptoPrice.call(@wallet_address.currency)
+        @estimated_price = @total / current_price
         return render :new
       end
 
@@ -36,8 +36,7 @@ module Properties
     def show
       @estimated_price = @reservation.estimated_crypto_amount
       @total = @reservation.total
-      @wallet_address, @currency = @reservation.property.wallet_address
-      # current_price = FetchCryptoPrice.call(@currency)
+      @wallet_address = @reservation.property.wallet_address
       @estimated_price = @reservation.estimated_crypto_amount
     end
 
@@ -67,7 +66,7 @@ module Properties
     def set_property_data
       @property = Property.find(params[:property_id])
       @property_name = @property.name
-      @wallet_address, @currency = @property.wallet_address
+      @wallet_address = @property.wallet_address
 
       if @wallet_address.nil?
         flash[:alert] = "Generating wallet address. Please wait"

@@ -3,4 +3,5 @@ class PaymentStatus
   PROCESSING = "processing"
   COMPLETED = "completed"
   FAILED = "failed"
+  UNDERPAID = "underpaid"
 end

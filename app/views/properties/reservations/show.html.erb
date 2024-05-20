@@ -1,37 +1,46 @@
-<div class="flex items-center justify-center h-screen" data-controller="payment-status">
-  <div class="bg-gray-100 rounded-lg p-6 sm:p-8 w-full">
-    <h2 class="text-2xl font-bold mb-4">Crypto Payment Processing</h2>
-    <h3 class="font-bold mb-4">Please don't close this page</h3>
-    <div class="grid gap-6">
-      <div class="grid gap-2">
-        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="wallet-address">
-          Wallet Address
-        </label>
-        <div class="flex items-center">
-          <div class="flex-1">
-            <input data-payment-status-target="walletAddress" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" type="text" id="wallet-address" value=<%= @wallet_address %> readonly />
+<div class="mx-auto flex flex-col items-center justify-center">
+  <div class="grid h-screen items-center justify-center" data-controller="payment-status">
+    <div class="bg-gray-300 rounded-lg p-6 sm:p-8 w-full flex flex-col lg:flex-row">
+      <div class="lg:w-1/2 lg:pr-4">
+        <h2 class="text-2xl font-bold mb-4">Crypto Payment Processing</h2>
+        <h3 class="font-bold mb-4">Please don't close this page</h3>
+        <div class="grid gap-6">
+          <div class="grid gap-2">
+            <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="wallet-address">
+              Wallet Address
+            </label>
+            <div class="flex items-center">
+              <div class="flex-1">
+                <input data-payment-status-target="walletAddress" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" type="text" id="wallet-address" value="<%= address %>" readonly />
+              </div>
+            </div>
+          </div>
+          <div class="grid gap-2">
+            <div class="text-gray-500 dark:text-gray-400">Amount to Send</div>
+            <div class="font-medium text-2xl whitespace-nowrap"><%= format_estimated_price %> <%= format_currency %></div>
+          </div>
+          <div class="grid gap-2">
+            <div class="text-gray-500 dark:text-gray-400">Current Status</div>
+            <div class="font-medium text-2xl whitespace-nowrap" data-payment-status-target="currentStatus"><%= @reservation.payment_status %></div>
+          </div>
+          <div class="grid gap-2">
+            <div class="text-gray-500 dark:text-gray-400">Crypto Network</div>
+            <div class="font-medium whitespace-nowrap"><%= format_network %></div>
+          </div>  
+         <div class="flex items-center justify-center">
+            <div class="text-sm text-gray-500 dark:text-gray-400 flex items-center justify-center">
+                Powered by
+                <a href="https://www.quidax.com" target="_blank" class="flex items-center text-blue-500 hover:underline ml-1">
+                  <img src="https://res.cloudinary.com/dkhelyskt/image/upload/v1716039309/quidax_logo-removebg-preview_wlzkaj.png" width="80" height="80" class="ml-2" alt="Quidax Logo">
+                </a>
+              </div>
           </div>
         </div>
       </div>
-      <div class="grid gap-2">
-        <div class="text-gray-500 dark:text-gray-400">Amount to Send</div>
-        <div class="font-medium text-2xl whitespace-nowrap"><%= format_estimated_price %> <%= @currency.upcase %></div>
-      </div>
-      <div class="grid gap-2">
-        <div class="text-gray-500 dark:text-gray-400">Current Status</div>
-        <div class="font-medium text-2xl whitespace-nowrap" data-payment-status-target="currentStatus"><%= @reservation.payment_status %></div>
-      </div>
-      <div class="grid gap-2">
-        <div class="text-gray-500 dark:text-gray-400">Crypto Network</div>
-        <div class="font-medium whitespace-nowrap"><%= @currency.upcase %></div>
-      </div>
-      <div class="flex items-center justify-center">
+      <div class="lg:w-1/2 lg:pl-4 flex items-center justify-center">
         <div class="bg-white dark:bg-gray-400 rounded-lg p-6 shadow-lg">
           <%= image_tag(build_qr_code.to_data_url) %>
         </div>
-      </div>
-      <div class="text-sm text-gray-500 dark:text-gray-400 text-center">
-        Processing your payment. Please wait
       </div>
     </div>
   </div>

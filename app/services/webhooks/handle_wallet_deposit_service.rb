@@ -36,7 +36,7 @@ module Webhooks
         Rails.logger.error(e.response.body)
         reservation.update!(payment_status: PaymentStatus::FAILED)
         ActionCable.server.broadcast "payment_status_#{payment_address}_channel",
-                                     { status: "Failed" }
+                                     { status: PaymentStatus::FAILED }
         return
       end
 
@@ -45,9 +45,9 @@ module Webhooks
       return if confrimation_status != "confirmed"
 
       # TODO: Send email to host about payment
-      reservation.update!(payment_status: PaymentStatus::Confirmed)
+      reservation.update!(payment_status: PaymentStatus::COMPLETED)
       ActionCable.server.broadcast "payment_status_#{payment_address}_channel",
-                                   { status: "Confirmed" }
+                                   { status: PaymentStatus::COMPLETED }
     end
   end
 end
